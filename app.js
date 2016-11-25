@@ -125,9 +125,9 @@ router.route('/index') //profile page
 app.use('/', router);
 //app.use('/login', router);
 
-var server = app.listen(port, function () {
-  console.log('Listening at port ' + port);
-});
+// var server = app.listen(port, function () {
+//   console.log('Listening at port ' + port);
+// });
 
 
 
@@ -135,7 +135,7 @@ var server = app.listen(port, function () {
 
 
 // start server on the specified port and binding host
-// app.listen(appEnv.port, '0.0.0.0', function() {
-//   // print a message when the server starts listening
-//   console.log("server starting on " + appEnv.url);
-// });
+app.listen(appEnv.port, '0.0.0.0', function() {
+  // print a message when the server starts listening
+  console.log("server starting on " + appEnv.url);
+});
