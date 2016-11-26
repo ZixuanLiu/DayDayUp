@@ -90,7 +90,7 @@ router.route('/login') //login page
 
 
   .post(passport.authenticate('local-login', {
-          successRedirect : '/index', // redirect to the secure profile section
+          successRedirect : '/schedule', // redirect to the secure profile section
           failureRedirect : '/login', // redirect back to the signup page if there is an error
           failureFlash : true // allow flash messages
         })
@@ -118,11 +118,10 @@ router.route('/index') //profile page
       });
   });
 
-// router.route('/logout') //logout page
-//   .get(function(req, res) {
-//       req.logout();
-//       res.redirect('/');
-//   });
+router.route('/schedule') //schedule page 
+  .get(function(req, res) {
+      res.render('../public/schedule.ejs');
+  });
 
 
 app.use('/', router);
