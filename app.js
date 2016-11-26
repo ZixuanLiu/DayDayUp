@@ -124,7 +124,11 @@ router.route('/schedule') //profile page
           user : req.user // get the user out of session and pass to template
       });
   });
-
+router.route('/logout') //logout page
+  .get(function(req, res) {
+      req.logOut();
+      res.redirect('/login');
+  });
 // router.route('/logout') //logout page
 //   .get(function(req, res) {
 //       req.logout();
