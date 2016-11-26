@@ -113,9 +113,14 @@ router.route('/signup') //signup page
 
 router.route('/index') //profile page
   .get(isLoggedIn, function(req, res) {
+      console.log(req.user.local.email);
+      //if (user.)
+
+
       res.render('../public/index.ejs', {
           user : req.user // get the user out of session and pass to template
       });
+      
   });
 
 // router.route('/logout') //logout page
@@ -131,6 +136,15 @@ app.use('/', router);
 // var server = app.listen(port, function () {
 //   console.log('Listening at port ' + port);
 // });
+
+/*
+// after user log in, go to user's homepage
+router.route('/schedule')
+   .get(function(req, res)) {
+      // check the r
+   }
+
+*/
 
 
 
