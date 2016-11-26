@@ -1,44 +1,98 @@
 <!doctype html>
 <html>
+
 <head>
-    <title>Node Authentication</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css"> <!-- load bootstrap css -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css"> <!-- load fontawesome -->
-    <style>
-        body        { padding-top:80px; }
-    </style>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<title> DayDayUp </title>
+	<!-- Bootstrap CSS -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<!--script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script-->
+	<!--script src="./pwCompare.js"></script-->
+	<style>
+/*		body {
+			 padding-top: 65px;   avoid navigation bar block top part of the content.
+		}*/
+		#bg {
+		  background-image: url('images.jpg');
+		  background-position: center top;
+		  background-size: 1080px auto;
+		  padding: 70px 90px 120px 90px;
+		}
+		.contain{
+			margin: auto;
+			padding-top: 50px;
+			align-items: center;
+			width: 400px;
+		}
+		.search {
+		  padding: 30px;
+		  background: rgb(34,34,34); /* for IE */
+		  background: rgba(34,34,34,0.75);
+		}
+		.search h2, .search h4, .search h4 a { text-align: center; color: #ddd; font-weight: normal; }
+		.form-class{
+			margin: 0 auto;
+		}
+		.inputS{
+			color: gray;
+			padding-left: 5px;
+			font-weight: normal;
+		}
+	</style>
+		
 </head>
 <body>
-<div class="container">
+       
 
-<div class="col-sm-6 col-sm-offset-3">
+	<!-- Navbar -->
+	<div id="bg">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Day Day Up</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+				
+						<li><a href="/login">Login</a></li>
+						<li><a href="/signup">Sign Up</a></li>
+				
+						<li><a href="/logout">Logout</a></li>
+					
+					</ul>
+				</div>
+			</div>
+		</nav
 
-    <h1><span class="fa fa-sign-in"></span> Signup</h1>
+    <!-- end of navigation bar-->
 
-    <!-- show any messages that come back with authentication -->
-    <% if (message.length > 0) { %>
-        <div class="alert alert-danger"><%= message %></div>
-    <% } %>
-
-    <!-- LOGIN FORM -->
-    <form action="/signup" method="post">
-        <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" name="email">
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="password" class="form-control" name="password">
-        </div>
-
-        <button type="submit" class="btn btn-warning btn-lg">Signup</button>
-    </form>
-    <p>Go <a href="/">home</a></p>
-    <hr>
-
-
-</div>
-
-</div>
+    <!-- form for user input-->
+    
+		<div class="contain">
+			<div class="search">
+				<form action="/signup" method="post" class="form-class"> 
+					<h4>
+					Email: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <input type="text" class='inputS' name="email"><br><br>
+					Password:&nbsp&nbsp <input type="password" class='inputS' id='txt1' name="password"><br><br>		
+					<input type="submit" class='btn btn-primary' value="Sign Up">
+					</h4>
+				</form>
+			</div>
+		</div>
+	</div>
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
+
 </html>
+

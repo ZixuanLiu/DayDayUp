@@ -1,7 +1,7 @@
 applications:
 - path: .
   memory: 256M
-  instances: 1
+  instances: 10
   domain: mybluemix.net
   name: cs252
   host: cs252

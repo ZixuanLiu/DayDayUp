@@ -31,7 +31,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
+//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
+//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
+mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -73,7 +75,7 @@ function isLoggedIn(req, res, next) {
 
 router.route('/') //main page
   .get(function(req, res) {
-      res.render('./public/index.html');//redirect to the main page
+      res.render('../public/index.ejs');//redirect to the main page
   });
 var path = require('path');
 router.route('/login') //login page
@@ -99,6 +101,7 @@ router.route('/signup') //signup page
 
       // render the page and pass in any flash data if it exists
       res.render('../public/signup.ejs', { message: req.flash('signupMessage') });
+            console.log(req.flash);
   })
 
   .post(passport.authenticate('local-signup', {
@@ -110,7 +113,7 @@ router.route('/signup') //signup page
 
 router.route('/index') //profile page
   .get(isLoggedIn, function(req, res) {
-      res.render('../public/index.html', {
+      res.render('../public/index.ejs', {
           user : req.user // get the user out of session and pass to template
       });
   });
