@@ -31,8 +31,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
-//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
+
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -90,7 +89,7 @@ router.route('/login') //login page
 
 
   .post(passport.authenticate('local-login', {
-          successRedirect : '/index', // redirect to the secure profile section
+          successRedirect : '/schedule', // redirect to the secure profile section
           failureRedirect : '/login', // redirect back to the signup page if there is an error
           failureFlash : true // allow flash messages
         })
@@ -111,18 +110,15 @@ router.route('/signup') //signup page
       })
     );
 
-router.route('/index') //profile page
-  .get(isLoggedIn, function(req, res) {
-      console.log(req.user.local.email);
-      //if (user.)
-
-
-      res.render('../public/index.ejs', {
+router.route('/schedule') //profile p 
+    .get(function(req, res) {
+      //console.log(req.user.local.email);
+     res.render('../public/schedule.ejs', {
           user : req.user // get the user out of session and pass to template
       });
       
   });
-
+//
 // router.route('/logout') //logout page
 //   .get(function(req, res) {
 //       req.logout();
