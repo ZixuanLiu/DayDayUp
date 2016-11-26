@@ -24,7 +24,7 @@
 			margin: auto;
 			padding-top: 50px;
 			align-items: center;
-			width: 400px;
+			width: 500px;
 		}
 		.search {
 		  padding: 30px;
@@ -39,12 +39,26 @@
 			color: gray;
 			padding-left: 5px;
 			font-weight: normal;
+			border-width: 0px;
+			width: 250px;
+			background-color: #ddd; /* for IE */
+		}
+		.inputY{
+			color: gray;
+			padding-left: 5px;
+			font-weight: normal;
+			height: 60px;
+			width: 250px;
+			border-width: 0px;
+			background-color: #ddd;
+			font-size: 16px;
 		}
 
 		.alertS{
 			color: #990000;
 			text-align: center;
 			padding-left: 30px;
+
 		}
 	</style>
 		
@@ -63,20 +77,20 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/">Day Day Up</a>
+					<a class="navbar-brand" href="/index">Day Day Up</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 				
-						<li><a href="/login">Login</a></li>
-						<li><a href="/signup">Sign Up</a></li>
+						<li><a href="/index">Home</a></li>
+						<li><a href="/schedule">My moment</a></li>
 				
 						<li><a href="/logout">Logout</a></li>
-					
 					</ul>
+					<li style="float: right; padding-top: 5px;"><img src="default.jpg" height="40" width="40" style="border-radius: 25px;">&nbsp&nbsp<text style="color: #ddd"><%= user.local.email %></text></li>
 				</div>
 			</div>
-		</nav>
+		</nav
 
     <!-- end of navigation bar-->
 
@@ -84,14 +98,14 @@
     
 		<div class="contain">
 			<div class="search">
-				<% if (message.length > 0) { %><div class="alertS"><%= message %></div><% } %>
+				<!--% if (message.length > 0) { %><div class="alertS"><%= message %></div><% } %!-->
 				<form action="/login" method="post" class="form-class"> 
 					<h4>
-					Username:&nbsp&nbsp<input type="text" class='inputS' name="email"><br><br>
-					Password:&nbsp&nbsp <input type="password" class='inputS' name="password"><br><br>			
-					<input type="submit" class='btn btn-primary' value="Login">
+					Schedule name: &nbsp<input type="text" class='inputS' name="title"><br><br>
+					Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <textarea type="text" class='inputY' name="descrip" rows="5">brief description of your schedule</textarea><br><br>
+
+					<input type="submit" class='btn btn-primary' value="Create">
 					</h4>
-					<p><h6>Need an account? <a href="/signup">Signup</a></h6></p>
 				</form>
 			</div>
 		</div>
