@@ -44,7 +44,7 @@ app.use(bodyParser());
 var port = process.env.PORT || 8070;
 var router = express.Router();
 
-app.use(session({ secret: 'Pixell' })); // session secret
+app.use(session({ secret: 'DayDayUp' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
@@ -91,7 +91,7 @@ router.route('/login') //login page
 
   .post(passport.authenticate('local-login', {
           successRedirect : '/index', // redirect to the secure profile section
-          failureRedirect : '/signup', // redirect back to the signup page if there is an error
+          failureRedirect : '/login', // redirect back to the signup page if there is an error
           failureFlash : true // allow flash messages
         })
   );
