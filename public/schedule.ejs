@@ -38,7 +38,7 @@
 		.inputS{
 			color: gray;
 			padding-left: 5px;
-			font-weight: normal;\
+			font-weight: normal;
 			border-width: 0px;
 			width: 250px;
 			background-color: #ddd; /* for IE */
@@ -93,7 +93,7 @@
     
 		<div class="contain">
 			<div class="search">
-				<form action="/login" method="post" class="form-class"> 
+				<form action="/schedule" method="post" class="form-class"> 
 					<h4>
 					Schedule name: &nbsp<input type="text" class='inputS' name="title"><br><br>
 					Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <textarea type="text" class='inputY' name="descrip" rows="5">brief description of your schedule</textarea><br><br>		
@@ -102,6 +102,23 @@
 				</form>
 			</div>
 		</div>
+
+		<% if (user.local.schedules.length == 0) { %>
+    		<p>You have not started any schedules yet! Start one right now!!</p>
+		<% } else { %>
+    		<ul>
+    			<% for (var i = 0; i < user.local.schedules.length; i++) { %>
+					<li> <%= user.local.schedules[i].title%></li>
+				<%}%>
+    		</ul>
+		<% } %>
+	
+
+
+
+
+
+
 	</div>
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>

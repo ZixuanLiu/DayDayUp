@@ -125,10 +125,6 @@ router.route('/schedule') //profile page
       });
   });
 
-router.route('/schedule') //schedule page 
-  .get(function(req, res) {
-      res.render('../public/schedule.ejs');
-  });
 
 
 app.use('/', router);
