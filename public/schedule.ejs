@@ -82,7 +82,9 @@
 						<li><a href="/logout">Logout</a></li>
 					
 					</ul>
+
 					<li style="float: right; padding-top: 5px; color: gray;"><img src="default.jpg" height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+
 				</div>
 			</div>
 		</nav>
@@ -120,6 +122,16 @@
 
 
 	</div>
+
+    <% if( schedules.length == 0 ) { %>
+       <p> You are not started any schedule yet!</p>
+    <%} else { %>
+    <ul>
+    	<% for (var i = 0; i < schedules.length; i++) { %>
+    		<li> <%= schedules[i].title %> </li>
+    	<% } %>
+    </ul>
+    <% } %>
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>
