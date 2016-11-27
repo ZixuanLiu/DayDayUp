@@ -114,7 +114,7 @@ router.route('/signup') //signup page
 
 
 var Schedule = require("./lib/schedule");
-router.route('/schedule') //profile page
+router.route('/schedule$') //profile page
   .get(isLoggedIn, function(req, res) {
         Schedule.find({creator: req.user._id}, (err, schedule) => {
           if(err){
@@ -173,6 +173,11 @@ router.route('/schedule') //profile page
   }); 
 //
 
+router.route('/schedule/:title')
+  .get(function(req, res) {
+      console.log(req.params.title);
+      res.send(req.params.title);
+  });
 
 router.route('/logout') //logout page
   .get(function(req, res) {

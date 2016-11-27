@@ -111,7 +111,9 @@
     <%} else { %>
     <ul>
     	<% for (var i = 0; i < schedules.length; i++) { %>
-    		<li> <%= schedules[i].title %> </li>
+    	   
+    		<!--<li> <a href= 'schedules/<%=schedules[i]._id%>'><%= schedules[i].title %> </li>  // note: It works, but not user friendly, since the _id is a long long number.--> 
+    		<li> <a href='schedule/<%= schedules[i].title%>'> <%= schedules[i].title %> </li>
     	<% } %>
     </ul>
     <% } %>
