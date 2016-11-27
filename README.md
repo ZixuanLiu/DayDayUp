@@ -1,14 +1,15 @@
-# Node.js Starter Overview
+@ Team Member
+	Name			E-mail
+	Zixuan Liu		liu1057@purdue.edu
+	Yuanyuan Ji		ji79@purdue.edu
+	Yinuo Pan		pan125@purdue.edu
 
-The Node.js Starter demonstrates a simple, reusable Node.js web application based on the Express framework.
 
-## Run the app locally
+@Project Name: Day Day up
 
-1. [Install Node.js][]
-2. Download and extract the starter code from the Bluemix UI
-3. cd into the app directory
-4. Run `npm install` to install the app's dependencies
-5. Run `npm start` to start the app
-6. Access the running app in a browser at http://localhost:6001
+@Description: It's a social media website that is designed to help people set up goals and motivate them to achieve it. User could set up schedule and follow the schedule day by day. For example, a user who made a plan to reading one thousand words every day, could check-in and write some notes online and share with other people. If user can persist with his/her schedule, he/she will be promoted at the home page as recommendation.
 
-[Install Node.js]: https://nodejs.org/en/download/
+@Technique:
+	Backend: MangoDB/mySQL Node.js
+	Frontend: Angular, HTML5, JAVASCRIPT
+
