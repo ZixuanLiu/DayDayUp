@@ -38,7 +38,7 @@
 		.inputS{
 			color: gray;
 			padding-left: 5px;
-			font-weight: normal;\
+			font-weight: normal;
 			border-width: 0px;
 			width: 250px;
 			background-color: #ddd; /* for IE */
@@ -52,6 +52,72 @@
 			border-width: 0px;
 			background-color: #ddd;
 			font-size: 16px;
+		}
+		.mySchedules {
+			font-size:130%; 
+			color:#6CD6CC; 
+			font-weight:bold; 
+			padding: 20px 10px 10px; 
+			text-align:center
+		}
+		.listStyle {
+			width:410px;
+			margin:0 auto;
+		}
+
+		.listStyle ul {
+			list-style-type: none;
+			list-style-type: decimal !ie; /*IE 7- hack*/
+			margin: 0;
+			margin-left: 1em;
+			padding: 0;
+			counter-reset: li-counter;
+		}
+
+		.listStyle ul li{
+			position: relative;
+			margin-bottom: 1.5em;
+			padding: 0.5em;
+			background-color: #F0D756;
+			padding-left: 58px;
+		}
+
+		.listStyle a{
+			text-decoration:none;
+			color: #556B2F;
+			font-size:15px;
+			font-family: 'Raleway', sans-serif;
+		}
+		
+		.listStyle li:hover{
+			box-shadow:inset -1em 0 #6CD6CC;
+			-webkit-transition: box-shadow 0.5s; /* For Safari 3.1 to 6.0 */
+			transition: box-shadow 0.5s;
+		}
+
+		.listStyle ul li:before {
+			position: absolute;
+			top: -0.3em;
+			left: -0.5em;
+			width: 1.8em;
+			height: 1.2em;
+			font-size: 2em;
+			line-height: 1.2;
+			font-weight: bold;
+			text-align: center;
+			color: white;
+			background-color: #6CD6CC;
+			transform: rotate(-20deg);
+			-ms-transform: rotate(-20deg);
+			-webkit-transform: rotate(-20deg);
+			z-index: 99;
+			overflow: hidden;
+			content: counter(li-counter);
+			counter-increment: li-counter;
+		}
+
+		label textarea{
+			vertical-align: middle;
 		}
 
 	</style>
@@ -97,24 +163,31 @@
 			<div class="search">
 				<form action="/schedule" method="post" class="form-class"> 
 					<h4>
-					Schedule name: &nbsp<input type="text" class='inputS' name="title"><br><br>
-					Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <textarea type="text" class='inputY' name="descrip" rows="5">brief description of your schedule</textarea><br><br>		
+					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
+					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="descrip" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
 					<input type="submit" class='btn btn-primary' value="Create">
 					</h4>
 				</form>
 			</div>
 		</div>
-	</div>
 
+	</div>
+	
     <% if( schedules.length == 0 ) { %>
-       <p> You are not started any schedule yet!</p>
+       <p> You have not started any schedule yet!</p>
     <%} else { %>
-    <ul>
-    	<% for (var i = 0; i < schedules.length; i++) { %>
-    		<li> <%= schedules[i].title %> </li>
-    	<% } %>
-    </ul>
+    	<p class="mySchedules">My Schedules:</p>
+    	<div class="listStyle">
+    		<ul>
+    		<% for (var i = 0; i < schedules.length; i++) { %>
+    			<li> <a href = '<%= schedules[i]._id%>'> <%= schedules[i].title %></a> </li>
+    		<% } %>
+    		</ul>
+    	</div>
     <% } %>
+
+
+
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>

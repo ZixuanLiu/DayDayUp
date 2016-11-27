@@ -180,11 +180,6 @@ router.route('/logout') //logout page
       res.redirect('/login');
   });
 
-// router.route('/logout') //logout page
-//   .get(function(req, res) {
-//       req.logout();
-//       res.redirect('/');
-//   });
 
 
 app.use('/', router);
