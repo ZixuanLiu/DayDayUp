@@ -38,7 +38,7 @@
 		.inputS{
 			color: gray;
 			padding-left: 5px;
-			font-weight: normal;
+			font-weight: normal;\
 			border-width: 0px;
 			width: 250px;
 			background-color: #ddd; /* for IE */
@@ -54,12 +54,6 @@
 			font-size: 16px;
 		}
 
-		.alertS{
-			color: #990000;
-			text-align: center;
-			padding-left: 30px;
-
-		}
 	</style>
 		
 </head>
@@ -77,20 +71,23 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/index">Day Day Up</a>
+					<a class="navbar-brand" href="/">Day Day Up</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 				
-						<li><a href="/index">Home</a></li>
+						<li><a href="/">Home</a></li>
 						<li><a href="/schedule">My moment</a></li>
 				
 						<li><a href="/logout">Logout</a></li>
+					
 					</ul>
-					<!--<li style="float: right; padding-top: 5px;"><img src="default.jpg" height="40" width="40" style="border-radius: 25px;">&nbsp&nbsp<text style="color: #ddd"><%= user.local.email %></text></li> -->
+
+					<li style="float: right; padding-top: 5px; color: gray;"><img src="default.jpg" height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+
 				</div>
 			</div>
-		</nav
+		</nav>
 
     <!-- end of navigation bar-->
 
@@ -98,18 +95,26 @@
     
 		<div class="contain">
 			<div class="search">
-				<!--% if (message.length > 0) { %><div class="alertS"><%= message %></div><% } %!-->
-				<form action="/login" method="post" class="form-class"> 
+				<form action="/schedule" method="post" class="form-class"> 
 					<h4>
 					Schedule name: &nbsp<input type="text" class='inputS' name="title"><br><br>
-					Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <textarea type="text" class='inputY' name="descrip" rows="5">brief description of your schedule</textarea><br><br>
-
+					Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp <textarea type="text" class='inputY' name="descrip" rows="5">brief description of your schedule</textarea><br><br>		
 					<input type="submit" class='btn btn-primary' value="Create">
 					</h4>
 				</form>
 			</div>
 		</div>
 	</div>
+
+    <% if( schedules.length == 0 ) { %>
+       <p> You are not started any schedule yet!</p>
+    <%} else { %>
+    <ul>
+    	<% for (var i = 0; i < schedules.length; i++) { %>
+    		<li> <%= schedules[i].title %> </li>
+    	<% } %>
+    </ul>
+    <% } %>
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>

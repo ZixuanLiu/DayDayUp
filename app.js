@@ -104,20 +104,73 @@ router.route('/signup') //signup page
   })
 
   .post(passport.authenticate('local-signup', {
-      successRedirect : '/index', // redirect to the secure profile section
+      successRedirect : '/schedule', // redirect to the secure profile section
       failureRedirect : '/signup', // redirect back to the signup page if there is an error
       failureFlash : true // allow flash messages
       })
     );
 
-router.route('/schedule') //profile p 
-    .get(function(req, res) {
-      //console.log(req.user.local.email);
-     res.render('../public/schedule.ejs', {
-          user : req.user // get the user out of session and pass to template
+
+
+
+var Schedule = require("./lib/schedule");
+router.route('/schedule') //profile page
+  .get(isLoggedIn, function(req, res) {
+        Schedule.find({creator: req.user._id}, (err, schedule) => {
+          if(err){
+            console.log(err);
+            res.end('error');
+          }
+          console.log("enter find");
+          console.log(schedule);
+          res.render('../public/schedule.ejs', {
+             user : req.user,
+             schedules: schedule
+          }); 
+        });
+      // res.render('../public/schedule.ejs', {
+      //     user : req.user ,
+      //     schedules: []// get the user out of session and pass to template
+      // });
+  })
+  .post(function(req, res) {
+      console.log(req.user.local.email);
+      var newSchedule = new Schedule();
+      newSchedule.creator = req.user._id; 
+      console.log("user id:" + req.user._id);
+      newSchedule.title = req.body.title;
+      newSchedule.descrip = req.body.descrip;
+      console.log( "title : "+ req.body.title);
+
+      newSchedule.save(function(err) {
+          if (err) 
+            console.log(err);
       });
-      
-  });
+
+      req.user.local.schedules.push(newSchedule);
+      req.user.save(function(err) {
+          if (err) 
+          console.log(err);
+      });
+      // Schedule.find({creator: newSchedule.creator}, (err, schedule) => {
+      //   if(err){
+      //     console.log(err);
+      //     res.end('error');
+      //   }
+      //   console.log("enter find");
+      //   console.log(schedule);
+      //   res.render('../public/schedule.ejs', {
+      //      user : req.user,
+      //      schedules: schedule
+      //   }); 
+      res.redirect('/schedule');
+      // });
+     // console.log(myschedules);
+      // res.render('../public/schedule.ejs', {
+      //      user : req.user,
+      //      schedules: myschedules
+      // });    
+  }); 
 //
 // router.route('/logout') //logout page
 //   .get(function(req, res) {
@@ -152,3 +205,9 @@ app.listen(appEnv.port, '0.0.0.0', function() {
   // print a message when the server starts listening
   console.log("server starting on " + appEnv.url);
 });
+
+
+
+
+
+
