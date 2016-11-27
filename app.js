@@ -173,10 +173,10 @@ router.route('/schedule$') //profile page
   }); 
 //
 
-router.route('/schedule/:title')
+router.route('/schedule/:id')
   .get(function(req, res) {
-      console.log(req.params.title);
-      res.send(req.params.title);
+      console.log(req.params.id);
+      res.send(req.params.id);
   });
 
 router.route('/logout') //logout page
@@ -185,11 +185,6 @@ router.route('/logout') //logout page
       res.redirect('/login');
   });
 
-// router.route('/logout') //logout page
-//   .get(function(req, res) {
-//       req.logout();
-//       res.redirect('/');
-//   });
 
 
 app.use('/', router);
