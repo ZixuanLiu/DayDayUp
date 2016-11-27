@@ -67,7 +67,7 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/');
+    res.redirect('/login');
 }
 
 //Pages used now are just for Test
@@ -172,6 +172,14 @@ router.route('/schedule') //profile page
       // });    
   }); 
 //
+
+
+router.route('/logout') //logout page
+  .get(function(req, res) {
+      req.logOut();
+      res.redirect('/login');
+  });
+
 // router.route('/logout') //logout page
 //   .get(function(req, res) {
 //       req.logout();
