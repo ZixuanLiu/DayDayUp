@@ -114,7 +114,7 @@ router.route('/signup') //signup page
 
 
 var Schedule = require("./lib/schedule");
-router.route('/schedule') //profile page
+router.route('/schedule$') //profile page
   .get(isLoggedIn, function(req, res) {
         Schedule.find({creator: req.user._id}, (err, schedule) => {
           if(err){
@@ -172,6 +172,32 @@ router.route('/schedule') //profile page
       // });    
   }); 
 //
+// router.route('/schedule/:title')
+router.route('/schedule/:id')
+  .get(function(req, res) {
+       
+      // find the schedule by the on
+       //console.log("title: " + req.params.title); 
+        Schedule.findById(req.params.id, (err, schedule) => {   // findById() it works.
+        //Schedule.find({creator : req.user._id, title: req.params.title}, (err, schedule) => {
+          if(err){
+            console.log(err);
+            res.end('error');
+          }
+          console.log(schedule);
+          //console.log( "schedule title: " + schedule.title);  // why we can not access its title? 
+          
+          res.render('../public/detail.ejs', {
+             user : req.user,
+             schedules: schedule
+          }); 
+          
+        });
+    });
+
+
+
+
 
 
 router.route('/logout') //logout page
