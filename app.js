@@ -172,20 +172,20 @@ router.route('/schedule$') //profile page
       // });    
   }); 
 //
-
-router.route('/schedule/:title')
+// router.route('/schedule/:title')
+router.route('/schedule/:id')
   .get(function(req, res) {
        
       // find the schedule by the on
-       console.log("title: " + req.params.title); 
-       //Schedule.findById(req.params.id, (err, schedule) => {   // findById() it works.
-        Schedule.find({creator : req.user._id, title: req.params.title}, (err, schedule) => {
+       //console.log("title: " + req.params.title); 
+        Schedule.findById(req.params.id, (err, schedule) => {   // findById() it works.
+        //Schedule.find({creator : req.user._id, title: req.params.title}, (err, schedule) => {
           if(err){
             console.log(err);
             res.end('error');
           }
           console.log(schedule);
-          console.log( "schedule title: " + schedule.title);  // why we can not access its title? 
+          //console.log( "schedule title: " + schedule.title);  // why we can not access its title? 
           
           res.render('../public/detail.ejs', {
              user : req.user,
@@ -194,6 +194,11 @@ router.route('/schedule/:title')
           
         });
     });
+
+
+
+
+
 
 router.route('/logout') //logout page
   .get(function(req, res) {
