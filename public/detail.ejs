@@ -15,7 +15,7 @@
 			 padding-top: 65px;   avoid navigation bar block top part of the content.
 		}*/
 		#bg {
-		  background-image: url('images.jpg');
+		  background-image: url('../images.jpg');
 		  background-position: center top;
 		  background-size: 1080px auto;
 		  padding: 70px 90px 120px 90px;
@@ -176,12 +176,12 @@
        <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not started any schedule yet!</text></p>
     <%} else { %>
 
-	<p class="mySchedules">My Schedules:</p>
+	<p class="mySchedules">Schedules&nbsp<%= schedules.title %>:</p>
 	<div class="listStyle">
 		<ul>
-		<% for (var i = 0; i < schedules.length; i++) { %>
-			<li> <a href = '/schedule/<%= schedules[i]._id %>' > <%= schedules[i].title %></a> </li>
-		<% } %>
+		<li>
+		<%= schedules.descrip %>
+		</li>
 		</ul>
 	</div>
 	 <% }  %>

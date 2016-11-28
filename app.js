@@ -16,8 +16,9 @@ var cfenv = require('cfenv');
 var app = express();
 
 // serve the files out of ./public as our main files
+var path = require('path');
 app.use(express.static(__dirname + '/public/'));
-
+app.use('/img',express.static(path.join(__dirname, '/public')));
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
@@ -76,7 +77,6 @@ router.route('/') //main page
   .get(function(req, res) {
       res.render('../public/index.ejs');//redirect to the main page
   });
-var path = require('path');
 router.route('/login') //login page
   .get(function(req, res) {
 
@@ -114,24 +114,18 @@ router.route('/signup') //signup page
 
 
 var Schedule = require("./lib/schedule");
-router.route('/schedule$') //profile page
+router.route('/schedule') //profile page
   .get(isLoggedIn, function(req, res) {
         Schedule.find({creator: req.user._id}, (err, schedule) => {
           if(err){
             console.log(err);
             res.end('error');
           }
-          console.log("enter find");
-          console.log(schedule);
           res.render('../public/schedule.ejs', {
              user : req.user,
              schedules: schedule
           }); 
         });
-      // res.render('../public/schedule.ejs', {
-      //     user : req.user ,
-      //     schedules: []// get the user out of session and pass to template
-      // });
   })
   .post(function(req, res) {
       console.log(req.user.local.email);
@@ -151,47 +145,23 @@ router.route('/schedule$') //profile page
       req.user.save(function(err) {
           if (err) 
           console.log(err);
-      });
-      // Schedule.find({creator: newSchedule.creator}, (err, schedule) => {
-      //   if(err){
-      //     console.log(err);
-      //     res.end('error');
-      //   }
-      //   console.log("enter find");
-      //   console.log(schedule);
-      //   res.render('../public/schedule.ejs', {
-      //      user : req.user,
-      //      schedules: schedule
-      //   }); 
+      }); 
       res.redirect('/schedule');
-      // });
-     // console.log(myschedules);
-      // res.render('../public/schedule.ejs', {
-      //      user : req.user,
-      //      schedules: myschedules
-      // });    
   }); 
 //
 // router.route('/schedule/:title')
 router.route('/schedule/:id')
   .get(function(req, res) {
-       
-      // find the schedule by the on
-       //console.log("title: " + req.params.title); 
-        Schedule.findById(req.params.id, (err, schedule) => {   // findById() it works.
-        //Schedule.find({creator : req.user._id, title: req.params.title}, (err, schedule) => {
-          if(err){
-            console.log(err);
-            res.end('error');
-          }
-          console.log(schedule);
-          //console.log( "schedule title: " + schedule.title);  // why we can not access its title? 
-          
-          res.render('../public/detail.ejs', {
-             user : req.user,
-             schedules: schedule
-          }); 
-          
+         Schedule.findOne({ '_id': req.params.id })
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+           res.render('../public/detail.ejs', {
+              user : req.user,
+              schedules: schedule
+           }); 
         });
     });
 
