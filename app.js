@@ -31,8 +31,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
-//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
+
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -111,25 +110,75 @@ router.route('/signup') //signup page
       })
     );
 
-// router.route('/index') //profile page
-//   .get(isLoggedIn, function(req, res) {
-//       res.render('../public/index.ejs', {
-//           user : req.user // get the user out of session and pass to template
-//       });
-//   });
 
+
+
+var Schedule = require("./lib/schedule");
 router.route('/schedule') //profile page
   .get(isLoggedIn, function(req, res) {
-      res.render('../public/schedule.ejs', {
-          user : req.user // get the user out of session and pass to template
+        Schedule.find({creator: req.user._id}, (err, schedule) => {
+          if(err){
+            console.log(err);
+            res.end('error');
+          }
+          console.log("enter find");
+          console.log(schedule);
+          res.render('../public/schedule.ejs', {
+             user : req.user,
+             schedules: schedule
+          }); 
+        });
+      // res.render('../public/schedule.ejs', {
+      //     user : req.user ,
+      //     schedules: []// get the user out of session and pass to template
+      // });
+  })
+  .post(function(req, res) {
+      console.log(req.user.local.email);
+      var newSchedule = new Schedule();
+      newSchedule.creator = req.user._id; 
+      console.log("user id:" + req.user._id);
+      newSchedule.title = req.body.title;
+      newSchedule.descrip = req.body.descrip;
+      console.log( "title : "+ req.body.title);
+
+      newSchedule.save(function(err) {
+          if (err) 
+            console.log(err);
       });
-  });
+      req.user.local.schedules.push(newSchedule);
+      req.user.save(function(err) {
+          if (err) 
+          console.log(err);
+      });
+      // Schedule.find({creator: newSchedule.creator}, (err, schedule) => {
+      //   if(err){
+      //     console.log(err);
+      //     res.end('error');
+      //   }
+      //   console.log("enter find");
+      //   console.log(schedule);
+      //   res.render('../public/schedule.ejs', {
+      //      user : req.user,
+      //      schedules: schedule
+      //   }); 
+      res.redirect('/schedule');
+      // });
+     // console.log(myschedules);
+      // res.render('../public/schedule.ejs', {
+      //      user : req.user,
+      //      schedules: myschedules
+      // });    
+  }); 
+//
+
 
 router.route('/logout') //logout page
   .get(function(req, res) {
       req.logOut();
       res.redirect('/login');
   });
+
 // router.route('/logout') //logout page
 //   .get(function(req, res) {
 //       req.logout();
@@ -144,6 +193,15 @@ app.use('/', router);
 //   console.log('Listening at port ' + port);
 // });
 
+/*
+// after user log in, go to user's homepage
+router.route('/schedule')
+   .get(function(req, res)) {
+      // check the r
+   }
+
+*/
+
 
 
 
@@ -154,3 +212,9 @@ app.listen(appEnv.port, '0.0.0.0', function() {
   // print a message when the server starts listening
   console.log("server starting on " + appEnv.url);
 });
+
+
+
+
+
+
