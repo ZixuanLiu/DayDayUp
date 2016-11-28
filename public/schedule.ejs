@@ -176,15 +176,16 @@
     <% if( schedules.length == 0 ) { %>
        <p> You have not started any schedule yet!</p>
     <%} else { %>
-    	<p class="mySchedules">My Schedules:</p>
-    	<div class="listStyle">
-    		<ul>
-    		<% for (var i = 0; i < schedules.length; i++) { %>
-    			<li> <a href = '<%= schedules[i]._id%>'> <%= schedules[i].title %></a> </li>
-    		<% } %>
-    		</ul>
-    	</div>
-    <% } %>
+
+	<p class="mySchedules">My Schedules:</p>
+	<div class="listStyle">
+		<ul>
+		<% for (var i = 0; i < schedules.length; i++) { %>
+			<li> <a href = 'schedule/<%= schedules[i].title %>' > <%= schedules[i].title %></a> </li>
+		<% } %>
+		</ul>
+	</div>
+	 <% }  %>
 
 
 
