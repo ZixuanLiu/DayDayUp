@@ -148,8 +148,7 @@
 						<li><a href="/logout">Logout</a></li>
 					
 					</ul>
-
-					<li style="float: right; padding-top: 5px; color: gray;"><img src="default.jpg" height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+					<li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
 
 				</div>
 			</div>
@@ -174,7 +173,7 @@
 	</div>
 	
     <% if( schedules.length == 0 ) { %>
-       <p> You have not started any schedule yet!</p>
+       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not started any schedule yet!</text></p>
     <%} else { %>
     	<p class="mySchedules">My Schedules:</p>
     	<div class="listStyle">
