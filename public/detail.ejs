@@ -64,7 +64,6 @@
 			width:410px;
 			margin:0 auto;
 		}
-
 		.listStyle ul {
 			list-style-type: none;
 			list-style-type: decimal !ie; /*IE 7- hack*/
@@ -73,7 +72,6 @@
 			padding: 0;
 			counter-reset: li-counter;
 		}
-
 		.listStyle ul li{
 			position: relative;
 			margin-bottom: 1.5em;
@@ -81,7 +79,6 @@
 			background-color: #F0D756;
 			padding-left: 58px;
 		}
-
 		.listStyle a{
 			text-decoration:none;
 			color: #556B2F;
@@ -94,7 +91,6 @@
 			-webkit-transition: box-shadow 0.5s; /* For Safari 3.1 to 6.0 */
 			transition: box-shadow 0.5s;
 		}
-
 		.listStyle ul li:before {
 			position: absolute;
 			top: -0.3em;
@@ -115,11 +111,9 @@
 			content: counter(li-counter);
 			counter-increment: li-counter;
 		}
-
 		label textarea{
 			vertical-align: middle;
 		}
-
 	</style>
 		
 </head>
@@ -163,8 +157,8 @@
 				<form action="/schedule" method="post" class="form-class"> 
 					<h4>
 					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
-					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="descrip" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
-					<input type="submit" class='btn btn-primary' value="Create">
+					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
+					<input type="submit" class='btn btn-primary' value="Check-in">
 					</h4>
 				</form>
 			</div>
@@ -172,10 +166,6 @@
 
 	</div>
 	
-    <% if( schedules.length == 0 ) { %>
-       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not started any schedule yet!</text></p>
-    <%} else { %>
-
 	<p class="mySchedules">Schedules&nbsp<%= schedules.title %>:</p>
 	<div class="listStyle">
 		<ul>
@@ -184,6 +174,18 @@
 		</li>
 		</ul>
 	</div>
+    <% if( schedules.posts.length == 0 ) { %>
+       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not posted anythingyet!</text></p>
+    <%} else { %>
+
+	<div class="listStyle">
+		<ul>
+			<% for (var i = 0; i < schedules.posts.length; i++) { %>
+			<li> <%= schedules.posts[i] %> </li>
+			<% } %>
+		</ul>
+	</div> 
+
 	 <% }  %>
 
 
@@ -193,4 +195,3 @@
 </body>
 
 </html>
-
