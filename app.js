@@ -16,9 +16,8 @@ var cfenv = require('cfenv');
 var app = express();
 
 // serve the files out of ./public as our main files
-var path = require('path');
 app.use(express.static(__dirname + '/public/'));
-app.use('/img',express.static(path.join(__dirname, '/public')));
+
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
@@ -32,7 +31,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-mongoose.Promise = global.Promise;
+//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
+//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -77,11 +77,15 @@ router.route('/') //main page
   .get(function(req, res) {
       res.render('../public/index.ejs');//redirect to the main page
   });
+var path = require('path');
 router.route('/login') //login page
   .get(function(req, res) {
 
       // render the page and pass in any flash data if it exists
       res.render('../public/login.ejs', { message: req.flash('loginMessage') });
+      //res.render(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') });
+      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') } );
+      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: 'I am here'} );
     })
 
 
@@ -106,6 +110,7 @@ router.route('/signup') //signup page
       failureFlash : true // allow flash messages
       })
     );
+
 
 
 
@@ -145,8 +150,8 @@ router.route('/schedule') //profile page
       }); 
       res.redirect('/schedule');
   }); 
-//
-// router.route('/schedule/:title')
+
+router.route('/schedule/:title')
 var Post = require("./lib/post");
 router.route('/schedule/:id')
   .get(function(req, res) {
@@ -206,20 +211,6 @@ router.route('/logout') //logout page
 
 
 app.use('/', router);
-//app.use('/login', router);
-
-// var server = app.listen(port, function () {
-//   console.log('Listening at port ' + port);
-// });
-
-/*
-// after user log in, go to user's homepage
-router.route('/schedule')
-   .get(function(req, res)) {
-      // check the r
-   }
-
-*/
 
 
 
