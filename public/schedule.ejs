@@ -132,6 +132,11 @@
 			padding-left: 40px;
 			padding-right: 40px;
 		}
+
+
+		trashIcon {
+			margin-bottom: 15px;
+		}
 	</style>
 		
 </head>
@@ -192,8 +197,11 @@
 	<div class="listStyle">
 		<ul>
 		<% for (var i = 0; i < schedules.length; i++) { %>
-			<li> <a href = '/schedule/<%= schedules[i]._id %>' > <%= schedules[i].title %></a> </li>
+			<li><a href = '/schedule/<%= schedules[i]._id %>' > <%= schedules[i].title %></a> </li>
 			<p class="description"> <%= schedules[i].descrip%></p>
+			<div style="text-align: right;">
+			<input type="submit" value="Remove" style="margin-bottom: 1.0em;">
+			</div>
 		<% } %>
 		</ul>
 	</div>

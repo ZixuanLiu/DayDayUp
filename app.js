@@ -150,20 +150,50 @@ router.route('/schedule') //profile page
   }); 
 //
 // router.route('/schedule/:title')
+var Post = require("./lib/post");
 router.route('/schedule/:id')
   .get(function(req, res) {
          Schedule.findOne({ '_id': req.params.id })
+         .populate('posts')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
                 res.end('error');
             }
+            console.log(schedule);
+            
            res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
            }); 
         });
-    });
+  })
+  .post(function(req, res) {
+      Schedule.findOne({ '_id': req.params.id })
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            //console.log("schedule is: " + schedule);
+            var newPost = new Post();
+            newPost.content = req.body.content; 
+            //newPost.date = Date.now;
+            console.log( "Post : "+ newPost);
+
+            newPost.save(function(err) {
+                if (err) 
+                  console.log("failed to save post" + err);
+            });
+
+            schedule.posts.push(newPost);
+            schedule.save(function(err) {
+                if (err) 
+                console.log("fail to push schedule" + err);
+            }); 
+            res.redirect('/schedule/' + req.params.id);
+        });
+  }); 
 
 
 
