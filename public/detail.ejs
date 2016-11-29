@@ -1,1 +1,199 @@
-<% include schedule.ejs %>
+
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	<title> DayDayUp </title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+	<style>
+/*		body {
+			 padding-top: 65px;   avoid navigation bar block top part of the content.
+		}*/
+		#bg {
+		  background-image: url('../images.jpg');
+		  background-position: center top;
+		  background-size: 1080px auto;
+		  padding: 70px 90px 120px 90px;
+		}
+		.contain{
+			margin: auto;
+			padding-top: 50px;
+			align-items: center;
+			width: 500px;
+		}
+		.search {
+		  padding: 30px;
+		  background: rgb(34,34,34); /* for IE */
+		  background: rgba(34,34,34,0.75);
+		}
+		.search h6, .search h4, .search h4 a { text-align: center; color: #ddd; font-weight: normal; }
+		.form-class{
+			margin: 0 auto;
+		}
+		.inputS{
+			color: gray;
+			padding-left: 5px;
+			font-weight: normal;
+			border-width: 0px;
+			width: 250px;
+			background-color: #ddd; /* for IE */
+		}
+		.inputY{
+			color: gray;
+			padding-left: 5px;
+			font-weight: normal;
+			height: 60px;
+			width: 250px;
+			border-width: 0px;
+			background-color: #ddd;
+			font-size: 16px;
+		}
+		.mySchedules {
+			font-size:130%; 
+			color:#6CD6CC; 
+			font-weight:bold; 
+			padding: 20px 10px 10px; 
+			text-align:center
+		}
+		.listStyle {
+			width:410px;
+			margin:0 auto;
+		}
+		.listStyle ul {
+			list-style-type: none;
+			list-style-type: decimal !ie; /*IE 7- hack*/
+			margin: 0;
+			margin-left: 1em;
+			padding: 0;
+			counter-reset: li-counter;
+		}
+		.listStyle ul li{
+			position: relative;
+			margin-bottom: 1.5em;
+			padding: 0.5em;
+			background-color: #F0D756;
+			padding-left: 58px;
+		}
+		.listStyle a{
+			text-decoration:none;
+			color: #556B2F;
+			font-size:15px;
+			font-family: 'Raleway', sans-serif;
+		}
+		
+		.listStyle li:hover{
+			box-shadow:inset -1em 0 #6CD6CC;
+			-webkit-transition: box-shadow 0.5s; /* For Safari 3.1 to 6.0 */
+			transition: box-shadow 0.5s;
+		}
+		.listStyle ul li:before {
+			position: absolute;
+			top: -0.3em;
+			left: -0.5em;
+			width: 1.8em;
+			height: 1.2em;
+			font-size: 2em;
+			line-height: 1.2;
+			font-weight: bold;
+			text-align: center;
+			color: white;
+			background-color: #6CD6CC;
+			transform: rotate(-20deg);
+			-ms-transform: rotate(-20deg);
+			-webkit-transform: rotate(-20deg);
+			z-index: 99;
+			overflow: hidden;
+			content: counter(li-counter);
+			counter-increment: li-counter;
+		}
+		label textarea{
+			vertical-align: middle;
+		}
+	</style>
+		
+</head>
+<body>
+       
+
+	<!-- Navbar -->
+	<div id="bg">
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+					<a class="navbar-brand" href="/">Day Day Up</a>
+				</div>
+				<div id="navbar" class="navbar-collapse collapse">
+					<ul class="nav navbar-nav">
+				
+						<li><a href="/">Home</a></li>
+						<li><a href="/schedule">My moment</a></li>
+				
+						<li><a href="/logout">Logout</a></li>
+					
+					</ul>
+					<li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+
+				</div>
+			</div>
+		</nav>
+
+    <!-- end of navigation bar-->
+
+    <!-- form for user input-->
+    
+		<div class="contain">
+			<div class="search">
+				<form action="/schedule/<%= schedules._id %>" method="post" class="form-class"> 
+					<h4>
+					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
+					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
+					<input type="submit" class='btn btn-primary' value="Check-in">
+					</h4>
+				</form>
+			</div>
+		</div>
+
+	</div>
+	
+	<p class="mySchedules">Schedules&nbsp<%= schedules.title %>:</p>
+	<div class="listStyle">
+		<ul>
+		<li>
+		<%= schedules.descrip %>
+		</li>
+		</ul>
+	</div>
+    <% if( schedules.posts.length == 0 ) { %>
+       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not posted anythingyet!</text></p>
+    <%} else { %>
+
+	<div class="listStyle">
+		<ul>
+			<% for (var i = 0; i < schedules.posts.length; i++) { %>
+			<li> <%= schedules.posts[i].content %> </li>
+			<% } %>
+		</ul>
+	</div> 
+
+	 <% }  %>
+
+
+
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
+</html>
+
