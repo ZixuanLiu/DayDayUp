@@ -154,11 +154,14 @@ var Post = require("./lib/post");
 router.route('/schedule/:id')
   .get(function(req, res) {
          Schedule.findOne({ '_id': req.params.id })
+         .populate('posts')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
                 res.end('error');
             }
+            console.log(schedule);
+            
            res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
@@ -166,24 +169,30 @@ router.route('/schedule/:id')
         });
   })
   .post(function(req, res) {
-      console.log("schedule is" + req.schedules);
-      var newPost = new Post();
-      newPost.content = req.body.content; 
-      console.log("post content:" + req.body.content);
-      newPost.date = Date.now;
-      console.log( "date : "+ newPost.date);
+      Schedule.findOne({ '_id': req.params.id })
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            //console.log("schedule is: " + schedule);
+            var newPost = new Post();
+            newPost.content = req.body.content; 
+            //newPost.date = Date.now;
+            console.log( "Post : "+ newPost);
 
-      newPost.save(function(err) {
-          if (err) 
-            console.log(err);
-      });
+            newPost.save(function(err) {
+                if (err) 
+                  console.log("failed to save post" + err);
+            });
 
-      req.schedules.push(newPost);
-      req.schedules.save(function(err) {
-          if (err) 
-          console.log(err);
-      }); 
-      res.redirect('/schedule/:id');
+            schedule.posts.push(newPost);
+            schedule.save(function(err) {
+                if (err) 
+                console.log("fail to push schedule" + err);
+            }); 
+            res.redirect('/schedule/' + req.params.id);
+        });
   }); 
 
 

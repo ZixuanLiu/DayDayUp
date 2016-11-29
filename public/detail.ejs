@@ -154,7 +154,7 @@
     
 		<div class="contain">
 			<div class="search">
-				<form action="/schedule" method="post" class="form-class"> 
+				<form action="/schedule/<%= schedules._id %>" method="post" class="form-class"> 
 					<h4>
 					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
 					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
@@ -181,7 +181,7 @@
 	<div class="listStyle">
 		<ul>
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
-			<li> <%= schedules.posts[i] %> </li>
+			<li> <%= schedules.posts[i].content %> </li>
 			<% } %>
 		</ul>
 	</div> 
