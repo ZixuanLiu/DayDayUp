@@ -150,6 +150,7 @@ router.route('/schedule') //profile page
   }); 
 //
 // router.route('/schedule/:title')
+var Post = require("./lib/post");
 router.route('/schedule/:id')
   .get(function(req, res) {
          Schedule.findOne({ '_id': req.params.id })
@@ -163,7 +164,27 @@ router.route('/schedule/:id')
               schedules: schedule
            }); 
         });
-    });
+  })
+  .post(function(req, res) {
+      console.log("schedule is" + req.schedules);
+      var newPost = new Post();
+      newPost.content = req.body.content; 
+      console.log("post content:" + req.body.content);
+      newPost.date = Date.now;
+      console.log( "date : "+ newPost.date);
+
+      newPost.save(function(err) {
+          if (err) 
+            console.log(err);
+      });
+
+      req.schedules.push(newPost);
+      req.schedules.save(function(err) {
+          if (err) 
+          console.log(err);
+      }); 
+      res.redirect('/schedule/:id');
+  }); 
 
 
 
