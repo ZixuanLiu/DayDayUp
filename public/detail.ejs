@@ -11,14 +11,21 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 	<style>
 /*		body {
 			 padding-top: 65px;   avoid navigation bar block top part of the content.
 		}*/
 		#bg {
 		  background-image: url('../images.jpg');
+
 		  background-position: center top;
-		  background-size: 1080px auto;
+		  background-size: auto;
 		  padding: 70px 90px 120px 90px;
 		}
 		.contain{
@@ -115,13 +122,162 @@
 		label textarea{
 			vertical-align: middle;
 		}
-	</style>
-		
-</head>
-<body>
-       
+		.header {
+			display: inline;
+			text-indent: 60px;
+			color: white;
+			text-shadow: 2px 2px black;
+			font-size: 200%;
+			font-family: "Times New Roman", Times, serif;
+			text-transform: uppercase;
+		}
+		.description {
+			display: inline;
+			text-indent: 100px;
+			color: black;
+			text-shadow: 2px 2px white;
+			font-size: 130%;
+			font-family: "Times New Roman", Times, serif;
+			text-transform: uppercase;
+		}
+	
+		/*this is the css for timeline*/
+		.timeline {
+			list-style: none;
+			padding: 20px 0 20px;
+			position: relative;
+		}
+		.timeline:before {
+			top: 0;
+			bottom: 0;
+			position: absolute;
+			content: " ";
+			width: 3px;
+			background-color: #eeeeee;
+			right: 25px;
+			margin-left: -1.5px;
+		}
+		.timeline > li {
+			margin-bottom: 20px;
+			position: relative;
+		}
+		.timeline > li:before,
+		.timeline > li:after {
+			content: " ";
+			display: table;
+		}
+		.timeline > li:after {
+			clear: both;
+		}
+		.timeline > li:before,
+		.timeline > li:after {
+			content: " ";
+			display: table;
+		}
+		.timeline > li:after {
+			clear: both;
+		}
+		.timeline > li > .timeline-panel {
+			background-color: rgba(255, 255, 255, 0.5);
+			width: calc( 100% - 75px );
+			margin-left: 30px;
+			float: left;
+			border: 1px solid #d4d4d4;
+			border-radius: 10px;
+			padding: 20px;
+			position: relative;
+			-webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+			box-shadow: 0 1px 6px rgba(0, 0, 0, 0.175);
+		}
+		.timeline > li > .timeline-panel:before {
+			position: absolute;
+			top: 26px;
+			right: -15px;
+			display: inline-block;
+			border-top: 15px solid transparent;
+			border-left: 15px solid #ccc;
+			border-right: 0 solid #ccc;
+			border-bottom: 15px solid transparent;
+			content: " ";
+		}
+		.timeline > li > .timeline-panel:after {
+			position: absolute;
+			top: 27px;
+			right: -14px;
+			display: inline-block;
+			border-top: 14px solid transparent;
+			border-left: 14px solid #fff;
+			border-right: 0 solid #fff;
+			border-bottom: 14px solid transparent;
+			content: " ";
+		}
+		.timeline > li > .timeline-badge {
+			color: #fff;
+			width: 50px;
+			height: 50px;
+			line-height: 50px;
+			font-size: 1.4em;
+			text-align: center;
+			position: absolute;
+			top: 16px;
+			right: 0px;
+			margin-left: -25px;
+			background-color: #999999;
+			z-index: 100;
+			border-top-right-radius: 50%;
+			border-top-left-radius: 50%;
+			border-bottom-right-radius: 50%;
+			border-bottom-left-radius: 50%;
+		}
+		.timeline > li.timeline-inverted > .timeline-panel {
+			float: right;
+		}
+		.timeline > li.timeline-inverted > .timeline-panel:before {
+			border-left-width: 0;
+			border-right-width: 15px;
+			left: -15px;
+			right: auto;
+		}
+		.timeline > li.timeline-inverted > .timeline-panel:after {
+			border-left-width: 0;
+			border-right-width: 14px;
+			left: -14px;
+			right: auto;
+		}
+		.timeline-badge.primary {
+			background-color: #2e6da4 !important;
+		}
+		.timeline-badge.success {
+			background-color: #3f903f !important;
+		}
+		.timeline-badge.warning {
+			background-color: #f0ad4e !important;
+		}
+		.timeline-badge.danger {
+			background-color: #d9534f !important;
+		}
+		.timeline-badge.info {
+			background-color: #5bc0de !important;
+		}
+		.timeline-title {
+			margin-top: 0;
+			color: inherit;
+		}
+		.timeline-body > p,
+		.timeline-body > ul {
+			margin-bottom: 0;
+			text-align: right;
+		}
+		.timeline-body > p + p {
+			margin-top: 5px;
+		}
 
-	<!-- Navbar -->
+	</style>
+</head>
+
+
+<body>
+      	<!-- Navbar -->
 	<div id="bg">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
@@ -152,42 +308,46 @@
     <!-- end of navigation bar-->
 
     <!-- form for user input-->
-    
-		<div class="contain">
-			<div class="search">
-				<form action="/schedule/<%= schedules._id %>" method="post" class="form-class"> 
-					<h4>
-					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
-					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
-					<input type="submit" class='btn btn-primary' value="Check-in">
-					</h4>
-				</form>
-			</div>
-		</div>
+    <h1 class="header"><%= schedules.title %>:</h1>&nbsp&nbsp&nbsp&nbsp<p class="description"><%= schedules.descrip %></p>
 
-	</div>
-	
-	<p class="mySchedules">Schedules&nbsp<%= schedules.title %>:</p>
-	<div class="listStyle">
-		<ul>
-		<li>
-		<%= schedules.descrip %>
-		</li>
-		</ul>
-	</div>
-    <% if( schedules.posts.length == 0 ) { %>
-       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not posted anythingyet!</text></p>
+    <div class="contain">
+    	<div class="search">
+    		<form action="/schedule/<%= schedules._id %>" method="post" class="form-class"> 
+    			<h4>
+    				<!-- <label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br> -->
+    				<label>Say Something:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="What's on your mind?"></textarea></label><br><br>		
+    				<input type="submit" class='btn btn-primary' value="Check-in">
+    			</h4>
+    		</form>
+    	</div>
+    </div>
+
+    
+	<% if( schedules.posts.length == 0 ) { %>
+       <p class="mySchedules"><text style="text-align: center; color: #556B2F;"> You have not posted anything yet!</text></p>
     <%} else { %>
 
-	<div class="listStyle">
-		<ul>
+	<!-- <div class="container"> -->
+		<ul class="timeline">
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
-			<li> <%= schedules.posts[i].content %> </li>
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title"><%=schedules.posts[i].date%></h4>
+					</div>
+					<div class="timeline-body">
+						<p><%= schedules.posts[i].content %></p>
+					</div>
+				</div>
+			</li>
+
 			<% } %>
 		</ul>
-	</div> 
-
+	<!-- </div>  -->
 	 <% }  %>
+
+	</div>
+
 
 
 

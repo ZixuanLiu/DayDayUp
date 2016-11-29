@@ -151,7 +151,7 @@ router.route('/schedule') //profile page
       res.redirect('/schedule');
   }); 
 
-router.route('/schedule/:title')
+//router.route('/schedule/:title')
 var Post = require("./lib/post");
 router.route('/schedule/:id')
   .get(function(req, res) {
