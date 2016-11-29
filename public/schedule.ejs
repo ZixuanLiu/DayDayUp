@@ -76,7 +76,7 @@
 
 		.listStyle ul li{
 			position: relative;
-			margin-bottom: 1.5em;
+			margin-bottom: 0.8em;
 			padding: 0.5em;
 			background-color: #F0D756;
 			padding-left: 58px;
@@ -120,6 +120,18 @@
 			vertical-align: middle;
 		}
 
+		.description {
+			background-color: #F0D756;
+			width:395px;
+			margin:0 auto;
+			word-wrap: break-word;
+/*			margin-top: 1.0em;
+			margin-bottom: 1.5em;*/
+			margin-bottom: 1.5em;
+			padding: 0.5em;
+			padding-left: 40px;
+			padding-right: 40px;
+		}
 	</style>
 		
 </head>
@@ -181,6 +193,7 @@
 		<ul>
 		<% for (var i = 0; i < schedules.length; i++) { %>
 			<li> <a href = '/schedule/<%= schedules[i]._id %>' > <%= schedules[i].title %></a> </li>
+			<p class="description"> <%= schedules[i].descrip%></p>
 		<% } %>
 		</ul>
 	</div>

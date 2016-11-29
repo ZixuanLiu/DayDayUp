@@ -114,6 +114,25 @@
 		label textarea{
 			vertical-align: middle;
 		}
+		.header {
+			text-indent: 60px;
+			color: white;
+			text-shadow: 2px 2px black;
+			font-size: 200%;
+			font-family: "Times New Roman", Times, serif;
+			text-transform: uppercase;
+		}
+		.description {
+			width:395px;
+			margin:0 auto;
+			word-wrap: break-word;
+/*			margin-top: 1.0em;
+			margin-bottom: 1.5em;*/
+			margin-bottom: 1.5em;
+			padding: 0.5em;
+			padding-left: 40px;
+			padding-right: 40px;
+		}
 	</style>
 		
 </head>
@@ -151,13 +170,32 @@
     <!-- end of navigation bar-->
 
     <!-- form for user input-->
+    <p class="header"><%= schedules.title %>:</p>
+	<p class="description"><%= schedules.descrip %></p>
+
     
+	<% if( schedules.posts.length == 0 ) { %>
+       <p class="mySchedules"><text style="text-align: center; color: #556B2F;"> You have not posted anything yet!</text></p>
+    <%} else { %>
+
+	<div class="listStyle">
+		<ul>
+			<% for (var i = 0; i < schedules.posts.length; i++) { %>
+			<li> <%= schedules.posts[i].content %> </li>
+			<% } %>
+		</ul>
+	</div> 
+	 <% }  %>
+
+
+
+
 		<div class="contain">
 			<div class="search">
-				<form action="/schedule" method="post" class="form-class"> 
+				<form action="/schedule:id" method="post" class="form-class"> 
 					<h4>
-					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
-					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
+					<!-- <label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br> -->
+					<label>Say Something:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="What's in your heart?"></textarea></label><br><br>		
 					<input type="submit" class='btn btn-primary' value="Check-in">
 					</h4>
 				</form>
@@ -165,28 +203,7 @@
 		</div>
 
 	</div>
-	
-	<p class="mySchedules">Schedules&nbsp<%= schedules.title %>:</p>
-	<div class="listStyle">
-		<ul>
-		<li>
-		<%= schedules.descrip %>
-		</li>
-		</ul>
-	</div>
-    <% if( schedules.posts.length == 0 ) { %>
-       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not posted anythingyet!</text></p>
-    <%} else { %>
 
-	<div class="listStyle">
-		<ul>
-			<% for (var i = 0; i < schedules.posts.length; i++) { %>
-			<li> <%= schedules.posts[i] %> </li>
-			<% } %>
-		</ul>
-	</div> 
-
-	 <% }  %>
 
 
 
