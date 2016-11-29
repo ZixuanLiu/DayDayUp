@@ -32,7 +32,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
 
-
+mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -82,9 +82,6 @@ router.route('/login') //login page
 
       // render the page and pass in any flash data if it exists
       res.render('../public/login.ejs', { message: req.flash('loginMessage') });
-      //res.render(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') });
-      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') } );
-      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: 'I am here'} );
     })
 
 
