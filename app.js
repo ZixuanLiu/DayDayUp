@@ -43,7 +43,7 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 app.use(bodyParser());
 
-var port = process.env.PORT || 8070;
+var port = process.env.VCAP_APP_PORT || 8070;
 var router = express.Router();
 
 app.use(session({ secret: 'DayDayUp' })); // session secret
