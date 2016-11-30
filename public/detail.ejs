@@ -122,7 +122,7 @@
 			vertical-align: middle;
 		}
 		.header {
-			display: inline;
+			/*display: inline;*/
 			text-indent: 60px;
 			color: white;
 			text-shadow: 2px 2px black;
@@ -131,8 +131,10 @@
 			text-transform: uppercase;
 		}
 		.description {
-			display: inline;
-			text-indent: 100px;
+			/*display: inline;*/
+			width: 700px;
+			word-wrap: break-word;
+			text-indent: 180px;
 			color: black;
 			text-shadow: 2px 2px white;
 			font-size: 130%;
@@ -157,6 +159,7 @@
 			margin-left: -1.5px;
 		}
 		.timeline > li {
+			margin-left: 20px;
 			margin-bottom: 20px;
 			position: relative;
 		}
@@ -332,10 +335,10 @@
 			<li>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
-						<h4 class="timeline-title"><%=schedules.posts[i].date%></h4>
+						<h4 class="timeline-title"><%=schedules.posts[i].content%></h4>
 					</div>
 					<div class="timeline-body">
-						<p><%= schedules.posts[i].content %></p>
+						<p><%= schedules.posts[i].date%></p>
 					</div>
 				</div>
 			</li>

@@ -1,26 +1,67 @@
 <!doctype html>
 <html>
 
-  <head>
-    <title>NodeJS Starter Application</title>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="stylesheets/style.css">
-  </head>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+  <title> DayDayUp </title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
 
+
+<style>
+    #bg {
+      background-image: url('../images.jpg');
+      background-position: center top;
+      background-size: 1080px auto;
+      padding: 70px 90px 120px 90px;
+    }
+    .contain{
+      margin: auto;
+      padding-top: 50px;
+      align-items: center;
+      width: 500px;
+    }
+  
+    </style>
   <body>
-    <table>
-      <tr>
-        <td style= "width:30%;">
-          <img class = "newappIcon" src="images/newapp-icon.png">
-        </td>
-        <td>
-          <h1 id="message">Hello World! This is a test</h1>
-          <p class='description'></p> Thanks for creating a <span class = "blue">NodeJS Starter Application</span>.
-        </td>
-      </tr>
-    </table>
+
+
+    <!-- Navbar -->
+    <div id="bg">
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Day Day Up</a>
+          </div>
+          <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+
+              <li><a href="/">Home</a></li>
+              <li><a href="/schedule">My moment</a></li>
+
+              <li><a href="/logout">Logout</a></li>
+
+            </ul>
+
+          </div>
+        </div>
+      </nav>
+
+      <!-- end of navigation bar-->
+
+
+
+
+
   </body>
 
 </html>
