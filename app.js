@@ -112,9 +112,8 @@ router.route('/signup') //signup page
     );
 
 
-
-
-
+//schedule section : include add schedule and remove schedule.
+// add schedule
 var Schedule = require("./lib/schedule");
 router.route('/schedule') //profile page
   .get(isLoggedIn, function(req, res) {
@@ -150,6 +149,36 @@ router.route('/schedule') //profile page
       }); 
       res.redirect('/schedule');
   }); 
+
+// remove schedule 
+router.route('/schedule/remove/:id')
+    .post(function(req, res) {
+        // remove all the post of this schedule
+        //console.log("remove schedule id: " + req.params.id);
+       Schedule.update({"_id": req.params.id},{ $set: { posts : [] } }, function(error){
+             if (error) {
+                console.log(error);
+                res.end('error');
+            }
+         });
+     
+        // remove this schedule for users' schedule list
+        Schedule.findOne({'_id': req.params.id}, function(err, schedule) {
+            if (err) {
+                res.end('error');
+            }
+            //console.log(schedule);
+            schedule.remove(function(err) {
+               if (err) {
+                res.end('error');
+            }  
+            }) 
+            res.redirect('/schedule');  
+        })
+
+    });
+
+
 
 //router.route('/schedule/:title')
 var Post = require("./lib/post");
@@ -196,7 +225,6 @@ router.route('/schedule/:id')
             res.redirect('/schedule/' + req.params.id);
         });
   }); 
-
 
 
 
