@@ -30,7 +30,9 @@ var morgan       = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser   = require('body-parser');
 var session      = require('express-session');
-
+var timediff  = require("timediff");
+var DateDiff = require("date-diff");
+var moment = require("moment");
 //mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
 //mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
@@ -136,7 +138,11 @@ router.route('/schedule') //profile page
       newSchedule.title = req.body.title;
       newSchedule.descrip = req.body.descrip;
       console.log( "title : "+ req.body.title);
+      // set lastupdate for schedule
+      newSchedule.lastUpdate = new Date();
+      newSchedule.score = 0;
 
+      console.log("lastUpdate: " + newSchedule.lastUpdate);
       newSchedule.save(function(err) {
           if (err) 
             console.log(err);
@@ -182,6 +188,7 @@ router.route('/schedule/remove/:id')
 
 //router.route('/schedule/:title')
 var Post = require("./lib/post");
+// routes for post page
 router.route('/schedule/:id')
   .get(function(req, res) {
          Schedule.findOne({ '_id': req.params.id })
@@ -217,6 +224,34 @@ router.route('/schedule/:id')
                   console.log("failed to save post" + err);
             });
 
+            // calculte the time difference
+            
+            var diff = new DateDiff(new Date(), schedule.lastUpdate);
+            var diffminutes = diff.minutes();  // set up minutes for testing, later we will change for hours.
+            
+            console.log("diff minutes: " + diffminutes);
+            /*
+            // method2 : moment.js also works , but not simple as DateDiff above.
+            var startTime = moment(schedule.lastUpdate).format("YYYY-M-DD HH:mm:ss");
+            console.log("startTime : " + startTime);
+            var endTime = moment(new Date()).format("YYYY-M-DD HH:mm:ss");
+            console.log("endTime: " + endTime);
+            var diffminutes = moment(endTime).diff(startTime, 'minutes');
+            console.log("diffminutes: " + diffminutes);
+            */
+            if (diffminutes < 3) {
+
+                schedule.score ++;
+            }
+            else {
+                // may be send message to user: your score has been reset to zero.
+
+                schedule.score = 0;
+            }
+            // update lastUpdate time for the current schedule
+            schedule.lastUpdate = new Date();
+            console.log("score: " + schedule.score);
+            
             schedule.posts.push(newPost);
             schedule.save(function(err) {
                 if (err) 
