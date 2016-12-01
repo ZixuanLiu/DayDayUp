@@ -15,7 +15,7 @@
 			 padding-top: 65px;   avoid navigation bar block top part of the content.
 		}*/
 		#bg {
-		  background-image: url('images.jpg');
+		  background-image: url('../images.jpg');
 		  background-position: center top;
 		  background-size: 1080px auto;
 		  padding: 70px 90px 120px 90px;
@@ -76,7 +76,7 @@
 
 		.listStyle ul li{
 			position: relative;
-			margin-bottom: 1.5em;
+			margin-bottom: 0.8em;
 			padding: 0.5em;
 			background-color: #F0D756;
 			padding-left: 58px;
@@ -120,6 +120,23 @@
 			vertical-align: middle;
 		}
 
+		.description {
+			background-color: #F0D756;
+			width:395px;
+			margin:0 auto;
+			word-wrap: break-word;
+/*			margin-top: 1.0em;
+			margin-bottom: 1.5em;*/
+			margin-bottom: 1.5em;
+			padding: 0.5em;
+			padding-left: 40px;
+			padding-right: 40px;
+		}
+
+
+		trashIcon {
+			margin-bottom: 15px;
+		}
 	</style>
 		
 </head>
@@ -148,8 +165,7 @@
 						<li><a href="/logout">Logout</a></li>
 					
 					</ul>
-
-					<li style="float: right; padding-top: 5px; color: gray;"><img src="default.jpg" height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+					<li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
 
 				</div>
 			</div>
@@ -174,22 +190,30 @@
 	</div>
 	
     <% if( schedules.length == 0 ) { %>
-       <p> You have not started any schedule yet!</p>
+       <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not started any schedule yet!</text></p>
     <%} else { %>
-    	<p class="mySchedules">My Schedules:</p>
-    	<div class="listStyle">
-    		<ul>
-    		<% for (var i = 0; i < schedules.length; i++) { %>
-    			<li> <a href = '<%= schedules[i]._id%>'> <%= schedules[i].title %></a> </li>
-    		<% } %>
-    		</ul>
-    	</div>
-    <% } %>
+
+	<p class="mySchedules">My Schedules:</p>
+	<div class="listStyle">
+		<ul>
+		<% for (var i = 0; i < schedules.length; i++) { %>
+		    <form Action="/schedule/remove/<%= schedules[i]._id %>" Method="post" >
+				<li><a href = '/schedule/<%= schedules[i]._id %>' > <%= schedules[i].title %></a> </li>
+				<p class="description"> <%= schedules[i].descrip%></p>
+				<div style="text-align: right;">
+				<input type="submit" value="Remove" style="margin-bottom: 1.0em;">
+				</div>
+			</form>
+		<% } %>
+		</ul>
+	</div>
+	 <% }  %>
 
 
 
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	
 </body>
 
 </html>
