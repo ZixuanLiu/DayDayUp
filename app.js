@@ -74,20 +74,19 @@ function isLoggedIn(req, res, next) {
 }
 
 //Pages used now are just for Test
-
+/*
 router.route('/') //main page
   .get(function(req, res) {
       res.render('../public/index.ejs');//redirect to the main page
   });
+  */
 var path = require('path');
 router.route('/login') //login page
   .get(function(req, res) {
 
       // render the page and pass in any flash data if it exists
       res.render('../public/login.ejs', { message: req.flash('loginMessage') });
-      //res.render(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') });
-      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') } );
-      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: 'I am here'} );
+   
     })
 
 
@@ -119,12 +118,13 @@ router.route('/signup') //signup page
 var Schedule = require("./lib/schedule");
 router.route('/schedule') //profile page
   .get(isLoggedIn, function(req, res) {
-        Schedule.find({creator: req.user._id}, (err, schedule) => {
-          if(err){
-            console.log(err);
-            res.end('error');
-          }
-          res.render('../public/schedule.ejs', {
+        Schedule.find({creator: req.user._id})
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            res.render('../public/schedule.ejs', {
              user : req.user,
              schedules: schedule
           }); 
@@ -140,6 +140,7 @@ router.route('/schedule') //profile page
       console.log( "title : "+ req.body.title);
       // set lastupdate for schedule
       newSchedule.lastUpdate = new Date();
+      newSchedule.createdBy = newSchedule.lastupdate;
       newSchedule.score = 0;
 
       console.log("lastUpdate: " + newSchedule.lastUpdate);
@@ -159,26 +160,37 @@ router.route('/schedule') //profile page
 // remove schedule 
 router.route('/schedule/remove/:id')
     .post(function(req, res) {
-        // remove all the post of this schedule
+        // remove all the post of this schedule.  
         //console.log("remove schedule id: " + req.params.id);
+        /*
        Schedule.update({"_id": req.params.id},{ $set: { posts : [] } }, function(error){
              if (error) {
                 console.log(error);
                 res.end('error');
             }
          });
-     
-        // remove this schedule for users' schedule list
-        Schedule.findOne({'_id': req.params.id}, function(err, schedule) {
+        */
+
+       // remove this schedule for users' schedule list
+        Schedule.findOne({'_id': req.params.id})
+        .populate('posts')
+        .exec((err, schedule) => {
             if (err) {
                 res.end('error');
             }
-            //console.log(schedule);
+             // remove all the post of this schedule
+            for (var i = 0 ; i < schedule.posts.length; i++) {
+                schedule.posts[i].remove(function(err) {
+                    if (err)
+                        res.end('error');
+                });
+            }
+           
             schedule.remove(function(err) {
                if (err) {
                 res.end('error');
             }  
-            }) 
+            }); 
             res.redirect('/schedule');  
         })
 
@@ -191,8 +203,8 @@ var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
   .get(function(req, res) {
-         Schedule.findOne({ '_id': req.params.id })
-         .populate('posts')
+        Schedule.findOne({ '_id': req.params.id })
+        .populate('posts')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -239,7 +251,7 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-            if (diffminutes < 3) {
+            if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
             }
@@ -262,6 +274,46 @@ router.route('/schedule/:id')
   }); 
 
 
+// set up routes for home page
+var User = require("./lib/user");
+router.route('/home')
+  .get(function(req, res) {
+
+    // list all the schedules with the first 2 maximum score.
+    Schedule.find({})
+    .sort({score: -1})
+    .limit(2)
+    .exec((err, schedule) => {
+        if(err) {
+            res.end('error');
+        }
+        var users = [];
+        for (var i = 0 ; i < 2 ; i ++ ) {
+            User.findOne({_id : schedule[i].creator}).exec(
+            (err, user) => {
+                if(err) {
+                    res.end('error');
+                }
+                console.log("user:");
+                console.log(user);
+                users.push(user);
+             
+            });
+        }
+        // it still does not work .
+        console.log(users);
+        console.log(schedule.length);
+        console.log(schedule);
+        //res.json(200, schedules);
+        res.render("../public/index.ejs", {
+            schedules: schedule,
+            users : users
+         });
+       
+       
+   
+    });
+});
 
 
 
