@@ -191,8 +191,8 @@ var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
   .get(function(req, res) {
-         Schedule.findOne({ '_id': req.params.id })
-         .populate('posts')
+        Schedule.findOne({ '_id': req.params.id })
+        .populate('posts')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -239,7 +239,7 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-            if (diffminutes < 3) {
+            if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
             }
@@ -262,6 +262,24 @@ router.route('/schedule/:id')
   }); 
 
 
+// set up routes for home page
+
+router.route('/home')
+  .get(function(req, res) {
+
+    // list all the schedules with the first five maximum score.
+    Schedule.find({})
+    .sort({score: -1})
+    .limit(2)
+    .exec((err, schedules) => {
+        if(err) {
+            res.end('error');
+        }
+        console.log(schedules.length);
+        console.log(schedules);
+        res.json(200, schedules);
+    });
+});
 
 
 
