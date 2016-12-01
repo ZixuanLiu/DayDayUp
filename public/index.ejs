@@ -67,7 +67,7 @@
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
 
-              <li><a href="/">Home</a></li>
+              <li><a href="/home">Home</a></li>
               <li><a href="/schedule">My moment</a></li>
 
               <li><a href="/logout">Logout</a></li>
@@ -84,13 +84,15 @@
       <p><%for(var i = 0; i < schedules.length; i++) {%>
         <table>
           <tr>
-            <th><img src="<%= schedule[i].creator.imagePath%>"></th>
-            <th><%=schedule[i].title%></th>
+            <th> image </th>
+            <th><%=schedules[i].title%></th>
           </tr>
 
           <tr>
-            <th><%=schedule[i].creator.userName%></th>
-            <th><%=schedule[i].descrip%></th>
+            
+          
+            <td> <%=users[i].local.userName%> </td>
+            <td><%=schedules[i].descrip%></td>
           </tr>
         </table>
       <%}%>
