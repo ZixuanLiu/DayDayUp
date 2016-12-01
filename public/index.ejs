@@ -153,18 +153,24 @@
       <!-- end of navigation bar-->
       <p class="description"> DayDayUp is a social media website that is designed to help people set up goals and motivate them to achieve it. You can set up goals and stick to them every day. </p>
 
-         <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
+
+
+      <p>
+        <%for (var i = 0; i < schedules.length; i++) {%>
+        <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
           <tr>
             <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking1">1</th>
             <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="../default.jpg" class="Userimage"></th>
-            <th class="title" style= "background-color: rgba(255,255,255,0.5);">study for the final exams</th>
+            <th class="title" style= "background-color: rgba(255,255,255,0.5);"><%=schedules[i].title%></th>
           </tr>
 
           <tr>
-            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);">Liu123</th>
-            <th class="content " style= "background-color: rgba(255,255,255,0.5);">study for cs statistics and Engl and the final exams will start in two weeks from now on</th>
+            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);"><%=schedules[i].creator.userName%></th>
+            <th class="content " style= "background-color: rgba(255,255,255,0.5);"><%=schedules[i].descrip%></th>
           </tr>
         </table>
+        <%}%>
+      </p>
 
   </body>
 
