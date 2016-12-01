@@ -193,13 +193,14 @@ router.route('/schedule/:id')
   .get(function(req, res) {
          Schedule.findOne({ '_id': req.params.id })
          .populate('posts')
+         .populate('creator')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
                 res.end('error');
             }
             console.log(schedule);
-            
+            console.log('user is' + schedule.creator.local.email);
            res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
