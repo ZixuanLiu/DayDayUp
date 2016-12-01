@@ -1,22 +1,30 @@
-<!doctype html>
-<html>
-
-<head>
-	<meta charset="utf-8">
+<!DOCTYPE html>
+<!-- saved from url=(0055)http://localhost:6001/schedule/583f1aa3027db36e74ff18e3 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+	
 	<title> DayDayUp </title>
 	<!-- Bootstrap CSS -->
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="./DayDayUp_files/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<!-- jQuery library -->
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<script src="./DayDayUp_files/jquery.min.js"></script>
 
 	<!-- Latest compiled JavaScript -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script src="./DayDayUp_files/bootstrap.min.js"></script>
 
 	<style>
+/*		body {
+			 padding-top: 65px;   avoid navigation bar block top part of the content.
+		}*/
+		/*#bg {
+		  background-image: url('../images.jpg');
+		  background-position: center top;
+		  background-size: auto;
+		  padding: 70px 90px 120px 90px;
+		}*/
 		body {
 			background-image: url('../images.jpg');
 			background-position: top left;
@@ -33,7 +41,7 @@
 		.search {
 		  padding: 30px;
 		  background: rgb(34,34,34); /* for IE */
-		  background: rgba(34,34,34,0.55);
+		  background: rgba(34,34,34,0.75);
 		}
 		.search h6, .search h4, .search h4 a { text-align: center; color: #ddd; font-weight: normal; }
 		.form-class{
@@ -150,12 +158,10 @@
 			content: " ";
 			width: 3px;
 			background-color: #eeeeee;
-			right: 320px;/*position of timeline*/
+			right: 25px;
 			margin-left: -1.5px;
 		}
 		.timeline > li {
-			margin-left: 300px;/*size of timeline panel*/
-			margin-right: 300px;
 			margin-bottom: 20px;
 			position: relative;
 		}
@@ -275,7 +281,7 @@
 
 <body>
       	<!-- Navbar -->
-	<!-- <div id="bg"> -->
+	<div id="bg">
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -285,18 +291,18 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="/">Day Day Up</a>
+					<a class="navbar-brand" href="http://localhost:6001/">Day Day Up</a>
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
 				
-						<li><a href="/home">Home</a></li>
-						<li><a href="/schedule">My moment</a></li>
+						<li><a href="http://localhost:6001/">Home</a></li>
+						<li><a href="http://localhost:6001/schedule">My moment</a></li>
 				
-						<li><a href="/logout">Logout</a></li>
+						<li><a href="http://localhost:6001/logout">Logout</a></li>
 					
 					</ul>
-					<li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+					<li style="float: right; padding-top: 5px; color: gray;"><img src="./DayDayUp_files/default.jpg" height="40" width="40" style="border-radius: 25px;">&nbsp;&nbsp;liu001</li>
 
 				</div>
 			</div>
@@ -305,50 +311,115 @@
     <!-- end of navigation bar-->
 
     <!-- form for user input-->
-    <h1 class="header"><%= schedules.title %>:</h1>&nbsp&nbsp&nbsp&nbsp<p class="description"><%= schedules.descrip %></p>
+    <h1 class="header">study:</h1>&nbsp;&nbsp;&nbsp;&nbsp;<p class="description">study for the final</p>
 
     <div class="contain">
     	<div class="search">
-    		<form action="/schedule/<%= schedules._id %>" method="post" class="form-class"> 
+    		<form action="http://localhost:6001/schedule/583f1aa3027db36e74ff18e3" method="post" class="form-class"> 
     			<h4>
     				<!-- <label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br> -->
-    				<label>Say Something:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="What's on your mind?"></textarea></label><br><br>		
-    				<input type="submit" class='btn btn-primary' value="Check-in">
+    				<label>Say Something:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<textarea type="text" class="inputY" name="content" rows="5" placeholder="What&#39;s on your mind?"></textarea></label><br><br>		
+    				<input type="submit" class="btn btn-primary" value="Check-in">
     			</h4>
     		</form>
     	</div>
     </div>
 
     
-	<% if( schedules.posts.length == 0 ) { %>
-       <p class="mySchedules"><text style="text-align: center; color: #556B2F;"> You have not posted anything yet!</text></p>
-    <%} else { %>
+	
 	<!-- <div class="container"> -->
 		<ul class="timeline">
-			<% for (var i = 0; i < schedules.posts.length; i++) { %>
+			
 			<li>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
-						<h4 class="timeline-title"><%=schedules.posts[i].content%></h4>
+						<h4 class="timeline-title">Wed Nov 30 2016 13:33:00 GMT-0500 (EST)</h4>
 					</div>
 					<div class="timeline-body">
-						<p><%= schedules.posts[i].date %></p>
+						<p>study for cs252</p>
 					</div>
 				</div>
 			</li>
-			<% } %>
+			
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title">Wed Nov 30 2016 13:33:11 GMT-0500 (EST)</h4>
+					</div>
+					<div class="timeline-body">
+						<p>study for cs348
+</p>
+					</div>
+				</div>
+			</li>
+			
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title">Wed Nov 30 2016 13:33:21 GMT-0500 (EST)</h4>
+					</div>
+					<div class="timeline-body">
+						<p>study for stat417</p>
+					</div>
+				</div>
+			</li>
+			
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title">Wed Nov 30 2016 13:59:19 GMT-0500 (EST)</h4>
+					</div>
+					<div class="timeline-body">
+						<p>work on ENGL421 final project</p>
+					</div>
+				</div>
+			</li>
+			
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title">Wed Nov 30 2016 14:07:51 GMT-0500 (EST)</h4>
+					</div>
+					<div class="timeline-body">
+						<p>study hard</p>
+					</div>
+				</div>
+			</li>
+			
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title">Wed Nov 30 2016 14:12:45 GMT-0500 (EST)</h4>
+					</div>
+					<div class="timeline-body">
+						<p>world</p>
+					</div>
+				</div>
+			</li>
+			
+			<li>
+				<div class="timeline-panel">
+					<div class="timeline-heading">
+						<h4 class="timeline-title">Wed Nov 30 2016 14:24:34 GMT-0500 (EST)</h4>
+					</div>
+					<div class="timeline-body">
+						<p>hahahhahahah</p>
+					</div>
+				</div>
+			</li>
+			
 		</ul>
 	<!-- </div>  -->
-	 <% }  %>
+	 
 
-	<!-- </div> -->
+	</div>
 
 
 
 
 	<!-- Bootstrap JS -->
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+	<script src="./DayDayUp_files/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	
-</body>
 
-</html>
+
+</body></html>
