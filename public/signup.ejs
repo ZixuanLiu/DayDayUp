@@ -16,17 +16,18 @@
 /*		body {
 			 padding-top: 65px;   avoid navigation bar block top part of the content.
 		}*/
-		#bg {
-		  background-image: url('upImages.jpg');
-		  background-position: center top;
-		  background-size: 1080px auto;
-		  padding: 70px 90px 120px 90px;
+		body {
+			background-image: url('../images.jpg');
+			background-position: top left;
+			background-attachment: fixed;
+			background-repeat: no-repeat;
+			background-size: cover;
 		}
 		.contain{
 			margin: auto;
-			padding-top: 50px;
+			padding-top: 180px;
 			align-items: center;
-			width: 400px;
+			width: 500px;
 		}
 		.search {
 		  padding: 30px;
@@ -51,10 +52,10 @@
 		
 </head>
 <body>
-       
-
+<!--        
+	<img src="../images.jpg" id="bg" alt="" style="z-index: -1; opacity: 0.85"> -->
 	<!-- Navbar -->
-	<div id="bg">
+<!-- 	<div id="bg"> -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -95,7 +96,7 @@
 				</form>
 			</div>
 		</div>
-	</div>
+<!-- 	</div> -->
 	<!-- Bootstrap JS -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>

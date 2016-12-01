@@ -12,11 +12,12 @@
 
 
 <style>
-    #bg {
+    body {
       background-image: url('../images.jpg');
-      background-position: center top;
-      background-size: 1080px auto;
-      padding: 70px 90px 120px 90px;
+      background-position: top left;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
     .contain{
       margin: auto;
@@ -24,13 +25,34 @@
       align-items: center;
       width: 500px;
     }
-  
+    .description {
+        margin-top: 100px;
+        color: #fff;
+        font-family: "Times New Roman", Times, serif;
+        margin-left: auto;
+        margin-right: auto;
+        width: 500px;
+        text-align: center;
+        font-size: 18px;
+    }
+
+    table, td, th {
+      border: 1px solid black;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    th {
+      height: 50px;
+    }
     </style>
   <body>
 
-
     <!-- Navbar -->
-    <div id="bg">
+   <!--   -->
       <nav class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
           <div class="navbar-header">
@@ -57,10 +79,19 @@
       </nav>
 
       <!-- end of navigation bar-->
+      <p class="description"> DayDayUp is a social media website that is designed to help people set up goals and motivate them to achieve it. You can set up goals and stick to them every day. </p>
 
-
-
-
+      <p><%for(var i = 0; i < schedules.length; i++) {%>
+        <table>
+          <tr>
+            <th><img src="<%= schedule[i].creator.imagePath%>"></th>
+            <th><%=schedule[i].title%></th>
+            <th><%=schedule[i].creator.userName%></th>
+            <th><%=schedule[i].descrip%></th>
+          </tr>
+        </table>
+      <%}%>
+      </p>
 
   </body>
 
