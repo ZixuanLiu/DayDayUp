@@ -151,24 +151,7 @@ router.route('/schedule') //profile page
           if (err) 
           console.log(err);
       });
-      // Schedule.find({creator: newSchedule.creator}, (err, schedule) => {
-      //   if(err){
-      //     console.log(err);
-      //     res.end('error');
-      //   }
-      //   console.log("enter find");
-      //   console.log(schedule);
-      //   res.render('../public/schedule.ejs', {
-      //      user : req.user,
-      //      schedules: schedule
-      //   }); 
-      res.redirect('/schedule');
-      // });
-     // console.log(myschedules);
-      // res.render('../public/schedule.ejs', {
-      //      user : req.user,
-      //      schedules: myschedules
-      // });    
+      res.redirect('/schedule'); 
   }); 
 //
 
@@ -182,21 +165,6 @@ router.route('/logout') //logout page
 
 
 app.use('/', router);
-//app.use('/login', router);
-
-// var server = app.listen(port, function () {
-//   console.log('Listening at port ' + port);
-// });
-
-/*
-// after user log in, go to user's homepage
-router.route('/schedule')
-   .get(function(req, res)) {
-      // check the r
-   }
-
-*/
-
 
 
 
