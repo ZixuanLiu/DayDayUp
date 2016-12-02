@@ -210,8 +210,6 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
-            console.log(schedule);
-            console.log('user is' + schedule.creator.local.email);
            res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
@@ -288,35 +286,52 @@ router.route('/home')
         if(err) {
             res.end('error');
         }
-        // var users = [];
-        // for (var i = 0 ; i < 2 ; i ++ ) {
-        //     User.findOne({_id : schedule[i].creator}).exec(
-        //     (err, user) => {
-        //         if(err) {
-        //             res.end('error');
-        //         }
-        //         console.log("user:");
-        //         console.log(user);
-        //         users.push(user);
-             
-        //     });
-        // }
-        // it still does not work .
-        //console.log("user name: "+ schedule.creator.local.email);
-        console.log(schedule.length);
-        console.log(schedule);
-        //res.json(200, schedules);
-        res.render("../public/index.ejs", {
+        var logIn = false;
+        if (req.isAuthenticated()){
+          logIn = true;
+          res.render("../public/index.ejs", {
             schedules: schedule,
+            logIn: logIn,
             user : req.user
          });
-       
-       
-   
+        }
+        else{
+          res.render("../public/index.ejs", {
+            schedules: schedule,
+            logIn: logIn
+         });
+        }
+        console.log("user status: "+logIn); 
     });
 });
 
-
+router.route('/home/:id')
+    .get(function(req, res) {
+        Schedule.findOne({ '_id': req.params.id })
+        .populate('posts')
+        .populate('creator')
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            var logIn = false;
+            if (req.isAuthenticated()){
+              logIn = true;
+              res.render("../public/viewDetail.ejs", {
+                schedules: schedule,
+                logIn: logIn,
+                user : req.user
+             });
+            }
+            else{
+              res.render("../public/viewDetail.ejs", {
+                schedules: schedule,
+                logIn: logIn
+             });
+            }
+          });
+      });
 
 router.route('/logout') //logout page
   .get(function(req, res) {
