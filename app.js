@@ -74,12 +74,12 @@ function isLoggedIn(req, res, next) {
 }
 
 //Pages used now are just for Test
-/*
+
 router.route('/') //main page
   .get(function(req, res) {
-      res.render('../public/index.ejs');//redirect to the main page
+      res.redirect('/schedule');  
   });
-  */
+
 var path = require('path');
 router.route('/login') //login page
   .get(function(req, res) {
@@ -148,13 +148,13 @@ router.route('/schedule') //profile page
           if (err) 
             console.log(err);
       });
-
       req.user.local.schedules.push(newSchedule);
       req.user.save(function(err) {
           if (err) 
           console.log(err);
       }); 
       res.redirect('/schedule');
+
   }); 
 
 // remove schedule 
@@ -375,7 +375,6 @@ router.route('/logout') //logout page
 
 
 app.use('/', router);
-
 
 
 
