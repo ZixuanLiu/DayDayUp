@@ -26,27 +26,99 @@
       width: 500px;
     }
     .description {
-        margin-top: 100px;
+        margin-top: 110px;
+        margin-bottom: 80px;
         color: #fff;
         font-family: "Times New Roman", Times, serif;
         margin-left: auto;
         margin-right: auto;
         width: 500px;
         text-align: center;
-        font-size: 18px;
+        font-size: 20px;
     }
 
-    table, td, th {
-      border: 1px solid black;
+    .Userimage {
+      border-radius: 50%;
+      display: block;
+      margin: 0 auto;
+      height: 40px;
+      width: 40px;
+      border-radius: 25px;
+      margin-top: 5px;
     }
 
-    table {
-      border-collapse: collapse;
-      width: 100%;
+    .title {
+      text-align: left;
+      font-size: 18px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-transform: uppercase;
     }
 
+    .userName {
+      text-align: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .content {
+      text-align: left;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 16px;
+      color: black;
+      text-transform: lowercase;
+      padding-bottom: 5px;
+      font-weight: lighter;
+    }
+
+    .center-table {
+      margin-top: 50px;
+      margin-left: auto;
+      margin-right: auto;
+   /*   border: 1px solid;*/
+    }
     th {
-      height: 50px;
+/*      border: 1px solid;*/
+      width: 400px;
+      height: 40px;
+    }
+
+    .ranking1 {
+      transform: rotate(15deg);
+      -ms-transform: rotate(15deg);
+      -webkit-transform: rotate(15deg);
+      font-size: 50px;
+      text-align: center;
+      vertical-align: top;
+      color: #FFD700;
+    }
+
+    .ranking2 {
+      transform: rotate(15deg);
+      -ms-transform: rotate(15deg);
+      -webkit-transform: rotate(15deg);
+      font-size: 50px;
+      text-align: center;
+      vertical-align: top;
+      color: #cccccc;
+    }
+
+    .ranking3 {
+      transform: rotate(15deg);
+      -ms-transform: rotate(15deg);
+      -webkit-transform: rotate(15deg);
+      font-size: 50px;
+      text-align: center;
+      vertical-align: top;
+      color: #CD853F;
+    }
+
+    .ranking {
+      transform: rotate(15deg);
+      -ms-transform: rotate(15deg);
+      -webkit-transform: rotate(15deg);
+      font-size: 50px;
+      text-align: center;
+      vertical-align: top;
+      color: black;
     }
     </style>
   <body>
@@ -86,37 +158,19 @@
       <!-- end of navigation bar-->
       <p class="description"> DayDayUp is a social media website that is designed to help people set up goals and motivate them to achieve it. You can set up goals and stick to them every day. </p>
 
-      <p><%for(var i = 0; i < schedules.length; i++) {%>
-        <table>
+         <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
           <tr>
-            <th> image </th>
-            <th>
-            <% if(logIn == true){%>
-              <% console.log("user id: " + user._id);
-                 console.log("creator id: " + schedules[i].creator._id);
-              %>
-              <% if(user._id.toString() === schedules[i].creator._id.toString()){%>
-                <% console.log("compare is true");
-                %>
-                <a href="/schedule/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
-              <% }else{ %>
-                <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
-              <% } %>
-            <% }else{ %>
-              <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
-            <% } %>
-            </th>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking1">1</th>
+            <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="../default.jpg" class="Userimage"></th>
+            <th class="title" style= "background-color: rgba(255,255,255,0.5);">study for the final exams</th>
           </tr>
 
           <tr>
-            
-          
-            <td> <%=schedules[i].creator.local.email%> </td>
-            <td><%=schedules[i].descrip%></td>
+            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);">Liu123</th>
+            <th class="content " style= "background-color: rgba(255,255,255,0.5);">study for cs statistics and Engl and the final exams will start in two weeks from now on</th>
+>>>>>>> origin/liu123
           </tr>
         </table>
-      <%}%>
-      </p>
 
   </body>
 
