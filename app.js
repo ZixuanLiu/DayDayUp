@@ -230,7 +230,7 @@ router.route('/schedule/:id')
             newPost.content = req.body.content; 
             //newPost.date = Date.now;
             console.log( "Post : "+ newPost);
-
+            console.dir("check:" + JSON.stringify(req.body));
             newPost.save(function(err) {
                 if (err) 
                   console.log("failed to save post" + err);
@@ -287,6 +287,7 @@ router.route('/home')
         if(err) {
             res.end('error');
         }
+    
         var users = [];
         for (var i = 0 ; i < 2 ; i ++ ) {
             User.findOne({_id : schedule[i].creator}).exec(
@@ -300,14 +301,15 @@ router.route('/home')
              
             });
         }
+    
         // it still does not work .
-        console.log(users);
-        console.log(schedule.length);
+        //console.log(users);
+        //console.log(schedule.length);
         console.log(schedule);
         //res.json(200, schedules);
         res.render("../public/index.ejs", {
             schedules: schedule,
-            users : users
+            //users : users
          });
        
        
