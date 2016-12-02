@@ -1,11 +1,10 @@
 applications:
 - path: .
-  memory: 256M
-  instances: 3
+  memory: 512M
+  instances: 1
   domain: mybluemix.net
   name: cs252
-  host: cs252
+  host: cs253
   disk_quota: 1024M
   services:
   - availability-monitoring-auto
-  - Compose for MongoDB-3s

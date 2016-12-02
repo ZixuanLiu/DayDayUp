@@ -74,20 +74,19 @@ function isLoggedIn(req, res, next) {
 }
 
 //Pages used now are just for Test
-
+/*
 router.route('/') //main page
   .get(function(req, res) {
       res.render('../public/index.ejs');//redirect to the main page
   });
+  */
 var path = require('path');
 router.route('/login') //login page
   .get(function(req, res) {
 
       // render the page and pass in any flash data if it exists
       res.render('../public/login.ejs', { message: req.flash('loginMessage') });
-      //res.render(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') });
-      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: req.flash('loginMessage') } );
-      //res.sendFile(path.join(__dirname +  '/public/login.html'), { message: 'I am here'} );
+   
     })
 
 
@@ -119,12 +118,13 @@ router.route('/signup') //signup page
 var Schedule = require("./lib/schedule");
 router.route('/schedule') //profile page
   .get(isLoggedIn, function(req, res) {
-        Schedule.find({creator: req.user._id}, (err, schedule) => {
-          if(err){
-            console.log(err);
-            res.end('error');
-          }
-          res.render('../public/schedule.ejs', {
+        Schedule.find({creator: req.user._id})
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            res.render('../public/schedule.ejs', {
              user : req.user,
              schedules: schedule
           }); 
@@ -140,6 +140,7 @@ router.route('/schedule') //profile page
       console.log( "title : "+ req.body.title);
       // set lastupdate for schedule
       newSchedule.lastUpdate = new Date();
+      newSchedule.createdBy = newSchedule.lastupdate;
       newSchedule.score = 0;
 
       console.log("lastUpdate: " + newSchedule.lastUpdate);
@@ -159,26 +160,37 @@ router.route('/schedule') //profile page
 // remove schedule 
 router.route('/schedule/remove/:id')
     .post(function(req, res) {
-        // remove all the post of this schedule
+        // remove all the post of this schedule.  
         //console.log("remove schedule id: " + req.params.id);
+        /*
        Schedule.update({"_id": req.params.id},{ $set: { posts : [] } }, function(error){
              if (error) {
                 console.log(error);
                 res.end('error');
             }
          });
-     
-        // remove this schedule for users' schedule list
-        Schedule.findOne({'_id': req.params.id}, function(err, schedule) {
+        */
+
+       // remove this schedule for users' schedule list
+        Schedule.findOne({'_id': req.params.id})
+        .populate('posts')
+        .exec((err, schedule) => {
             if (err) {
                 res.end('error');
             }
-            //console.log(schedule);
+             // remove all the post of this schedule
+            for (var i = 0 ; i < schedule.posts.length; i++) {
+                schedule.posts[i].remove(function(err) {
+                    if (err)
+                        res.end('error');
+                });
+            }
+           
             schedule.remove(function(err) {
                if (err) {
                 res.end('error');
             }  
-            }) 
+            }); 
             res.redirect('/schedule');  
         })
 
@@ -190,16 +202,15 @@ router.route('/schedule/remove/:id')
 var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
-  .get(function(req, res) {
-         Schedule.findOne({ '_id': req.params.id })
-         .populate('posts')
+  .get(isLoggedIn,function(req, res) {
+        Schedule.findOne({ '_id': req.params.id })
+        .populate('posts')
+        .populate('posts.comments')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
                 res.end('error');
             }
-            console.log(schedule);
-            console.log('user is' + schedule.creator.local.email);
            res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
@@ -216,9 +227,6 @@ router.route('/schedule/:id')
             //console.log("schedule is: " + schedule);
             var newPost = new Post();
             newPost.content = req.body.content; 
-            //newPost.date = Date.now;
-            console.log( "Post : "+ newPost);
-
             newPost.save(function(err) {
                 if (err) 
                   console.log("failed to save post" + err);
@@ -239,7 +247,7 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-            if (diffminutes < 3) {
+            if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
             }
@@ -262,9 +270,102 @@ router.route('/schedule/:id')
   }); 
 
 
+// set up routes for home page
+var User = require("./lib/user");
+router.route('/home')
+  .get(function(req, res) {
+
+    // list all the schedules with the first 2 maximum score.
+    Schedule.find({})
+    .sort({score: -1})
+    .limit(2)
+    .populate('creator')
+    .exec((err, schedule) => {
+        if(err) {
+            res.end('error');
+        }
+        var logIn = false;
+        if (req.isAuthenticated()){
+          logIn = true;
+          res.render("../public/index.ejs", {
+            schedules: schedule,
+            logIn: logIn,
+            user : req.user
+         });
+        }
+        else{
+          res.render("../public/index.ejs", {
+            schedules: schedule,
+            logIn: logIn
+         });
+        }
+        console.log("user status: "+logIn); 
+    });
+});
 
 
+router.route('/home/:id')
+    .get(function(req, res) {
+        Schedule.findOne({ '_id': req.params.id })
+        .populate('posts')
+        .populate('creator')
+        .populate('posts.comments')
+        .exec((error, schedule) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            var logIn = false;
+            if (req.isAuthenticated()){
+              logIn = true;
+              res.render("../public/viewDetail.ejs", {
+                schedules: schedule,
+                logIn: logIn,
+                user : req.user
+             });
+            }
+            else{
+              res.render("../public/viewDetail.ejs", {
+                schedules: schedule,
+                logIn: logIn
+             });
+            }
+          });
+      });
+var Comment = require("./lib/comment");
+router.route('/mycomment/:sid/:pid')
+.post(function(req, res) {
+      Post.findOne({ '_id': req.params.pid })
+        .exec((error, post) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            //console.log("schedule is: " + schedule);
+            var newComment = new Comment();
+            newComment.content = req.body.content; 
+            newComment.creator = req.user._id;
+            //newPost.date = Date.now;
+            console.log( "comment : "+ newComment);
 
+            newComment.save(function(err) {
+                if (err) 
+                  console.log("failed to save comment" + err);
+            });
+
+            post.comments.push(newPost);
+            post.save(function(err) {
+                if (err) 
+                console.log("fail to push post" + err);
+            }); 
+            if(req.body.isSame.toString() === "true"){
+              res.redirect('/schedule/' + req.params.sid);
+            }
+            else{
+              res.redirect('/home/' + req.params.sid);
+            }
+        });
+  }); 
 router.route('/logout') //logout page
   .get(function(req, res) {
       req.logOut();
