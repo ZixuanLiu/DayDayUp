@@ -278,7 +278,7 @@ router.route('/home')
     // list all the schedules with the first 2 maximum score.
     Schedule.find({})
     .sort({score: -1})
-    .limit(2)
+    .limit(5)
     .populate('creator')
     .exec((err, schedule) => {
         if(err) {
