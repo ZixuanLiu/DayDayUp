@@ -27,7 +27,7 @@
     }
     .description {
         margin-top: 110px;
-        margin-bottom: 60px;
+        margin-bottom: 70px;
         color: #fff;
         font-family: "Times New Roman", Times, serif;
         margin-left: auto;
@@ -172,7 +172,7 @@
           <%} else {%>
             <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking"><%=i + 1%></th>
           <%}%>
-            <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="../default.jpg" class="Userimage"></th>
+            <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="<%=schedules[i].creator.local.imagePath%>" class="Userimage"></th>
             <th class="title" style= "background-color: rgba(255,255,255,0.5);">
               <% if(logIn == true){%>
               <% console.log("user id: " + user._id);
