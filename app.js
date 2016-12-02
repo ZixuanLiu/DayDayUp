@@ -202,9 +202,10 @@ router.route('/schedule/remove/:id')
 var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
-  .get(function(req, res) {
+  .get(isLoggedIn,function(req, res) {
         Schedule.findOne({ '_id': req.params.id })
         .populate('posts')
+        .populate('posts.comments')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -226,9 +227,6 @@ router.route('/schedule/:id')
             //console.log("schedule is: " + schedule);
             var newPost = new Post();
             newPost.content = req.body.content; 
-            //newPost.date = Date.now;
-            console.log( "Post : "+ newPost);
-
             newPost.save(function(err) {
                 if (err) 
                   console.log("failed to save post" + err);
@@ -305,11 +303,13 @@ router.route('/home')
     });
 });
 
+
 router.route('/home/:id')
     .get(function(req, res) {
         Schedule.findOne({ '_id': req.params.id })
         .populate('posts')
         .populate('creator')
+        .populate('posts.comments')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -332,7 +332,40 @@ router.route('/home/:id')
             }
           });
       });
+var Comment = require("./lib/comment");
+router.route('/mycomment/:sid/:pid')
+.post(function(req, res) {
+      Post.findOne({ '_id': req.params.pid })
+        .exec((error, post) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            //console.log("schedule is: " + schedule);
+            var newComment = new Comment();
+            newComment.content = req.body.content; 
+            newComment.creator = req.user._id;
+            //newPost.date = Date.now;
+            console.log( "comment : "+ newComment);
 
+            newComment.save(function(err) {
+                if (err) 
+                  console.log("failed to save comment" + err);
+            });
+
+            post.comments.push(newPost);
+            post.save(function(err) {
+                if (err) 
+                console.log("fail to push post" + err);
+            }); 
+            if(req.body.isSame.toString() === "true"){
+              res.redirect('/schedule/' + req.params.sid);
+            }
+            else{
+              res.redirect('/home/' + req.params.sid);
+            }
+        });
+  }); 
 router.route('/logout') //logout page
   .get(function(req, res) {
       req.logOut();
