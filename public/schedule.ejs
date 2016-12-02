@@ -15,7 +15,7 @@
 			 padding-top: 65px;   avoid navigation bar block top part of the content.
 		}*/
 		body {
-			background-image: url('../images3.jpg');
+			background-image: url('../images2.jpg');
 			background-position: top left;
 			background-attachment: fixed;
 			background-repeat: no-repeat;
@@ -141,10 +141,10 @@
 			padding-left: 40px;
 			padding-right: 40px;
 		}
-
-		trashIcon {
-			margin-bottom: 15px;
-		}
+/*		.glyphicon glyphicon-trash {
+			width: 24px !important;
+			height: 24px !important;
+		}*/
 	</style>
 		
 </head>
@@ -204,11 +204,17 @@
 		<ul>
 		<% for (var i = 0; i < schedules.length; i++) { %>
 		    <form Action="/schedule/remove/<%= schedules[i]._id %>" Method="post" >
-				<li><a href = '/schedule/<%= schedules[i]._id %>' > <%= schedules[i].title %></a> </li>
+				<li>
+					<span><a href = '/schedule/<%= schedules[i]._id %>'> <%= schedules[i].title %></a></span>
+					<!-- <span><input type="submit" value="Remove" style="float: right;"></span> -->
+					<button type="submit" class="btn btn-default btn-sm" style="float: right;">
+						<span class="glyphicon glyphicon-trash" ></span> Trash 
+					</button>
+				</li>
 				<p class="description"> <%= schedules[i].descrip%></p>
-				<div style="text-align: right;">
+				<!-- <div style="text-align: right;">
 				<input type="submit" value="Remove" style="margin-bottom: 1.0em;">
-				</div>
+				</div> -->
 			</form>
 		<% } %>
 		</ul>
