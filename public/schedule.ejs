@@ -11,9 +11,6 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 	<style>
-/*		body {
-			 padding-top: 65px;   avoid navigation bar block top part of the content.
-		}*/
 		body {
 			background-image: url('../images2.jpg');
 			background-position: top left;
@@ -23,7 +20,7 @@
 		}
 		.contain{
 			margin: auto;
-			padding-top: 40px;
+			padding-top: 30px;
 			padding-bottom: 40px;
 			align-items: center;
 			width: 500px;
@@ -82,6 +79,7 @@
 		}
 
 		.listStyle ul li{ /*schedule.title*/
+			box-shadow: 4px 4px 4px #999;
 			text-transform: uppercase;
 			position: relative;
 			margin-bottom: 0.8em;
@@ -129,6 +127,7 @@
 		}
 
 		.description {
+			box-shadow: 4px 4px 4px #999;
 			background-color: rgba(240, 215, 86, 0.75);
 			color: black;
 			width:395px;
@@ -141,17 +140,14 @@
 			padding-left: 40px;
 			padding-right: 40px;
 		}
-/*		.glyphicon glyphicon-trash {
-			width: 24px !important;
-			height: 24px !important;
-		}*/
+		.btn.btn-default.btn-sm{
+			float: right;
+			font-size: 7px;
+		}
 	</style>
 		
 </head>
 <body>
-       
-
-<!-- 	<img src="../images.jpg" id="bg" alt="" style="z-index: -1; opacity: 0.85"> -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
 			<div class="container">
 				<div class="navbar-header">
@@ -206,9 +202,8 @@
 		    <form Action="/schedule/remove/<%= schedules[i]._id %>" Method="post" >
 				<li>
 					<span><a href = '/schedule/<%= schedules[i]._id %>'> <%= schedules[i].title %></a></span>
-					<!-- <span><input type="submit" value="Remove" style="float: right;"></span> -->
-					<button type="submit" class="btn btn-default btn-sm" style="float: right;">
-						<span class="glyphicon glyphicon-trash" ></span> Trash 
+					<button type="submit" class="btn btn-default btn-sm">
+						<span class="glyphicon glyphicon-trash" ></span> 
 					</button>
 				</li>
 				<p class="description"> <%= schedules[i].descrip%></p>
