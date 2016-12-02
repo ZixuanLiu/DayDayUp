@@ -74,12 +74,12 @@ function isLoggedIn(req, res, next) {
 }
 
 //Pages used now are just for Test
-/*
+
 router.route('/') //main page
   .get(function(req, res) {
-      res.render('../public/index.ejs');//redirect to the main page
+      res.redirect('/schedule');  
   });
-  */
+
 var path = require('path');
 router.route('/login') //login page
   .get(function(req, res) {
@@ -278,7 +278,7 @@ router.route('/home')
     // list all the schedules with the first 2 maximum score.
     Schedule.find({})
     .sort({score: -1})
-    .limit(2)
+    .limit(5)
     .populate('creator')
     .exec((err, schedule) => {
         if(err) {

@@ -13,7 +13,7 @@
 
 <style>
     body {
-      background-image: url('../images.jpg');
+      background-image: url('../images2.jpg');
       background-position: top left;
       background-attachment: fixed;
       background-repeat: no-repeat;
@@ -27,7 +27,7 @@
     }
     .description {
         margin-top: 110px;
-        margin-bottom: 80px;
+        margin-bottom: 70px;
         color: #fff;
         font-family: "Times New Roman", Times, serif;
         margin-left: auto;
@@ -156,21 +156,43 @@
       </nav>
 
       <!-- end of navigation bar-->
-      <p class="description"> DayDayUp is a social media website that is designed to help people set up goals and motivate them to achieve it. You can set up goals and stick to them every day. </p>
+      <p class="description"> DayDayUp is a social media website which is designed to help you set up goals and motivate you to stick to them. Create your account and start from today. </p>
 
-         <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
+      <p><%for(var i = 0; i < schedules.length; i++) {%>
+        <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
           <tr>
-            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking1">1</th>
-            <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="../default.jpg" class="Userimage"></th>
-            <th class="title" style= "background-color: rgba(255,255,255,0.5);">study for the final exams</th>
+          <%if(i == 0) {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking1"><%=i + 1%></th>
+          <%} else if(i == 1) {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking2"><%=i + 1%></th>
+          <%} else if(i == 2) {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking3"><%=i + 1%></th>
+          <%} else {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking"><%=i + 1%></th>
+          <%}%>
+            <th style="width:180px; background-color: rgba(255,255,255,0.5);" >
+            <img src="<%=schedules[i].creator.local.imagePath%>" class="Userimage"></th>
+            <th class="title" style= "background-color: rgba(255,255,255,0.5);">
+              <% if(logIn == true){%>
+              <% if(user._id.toString() === schedules[i].creator._id.toString()){%>
+              <% console.log("compare is true");
+              %>
+              <a href="/schedule/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
+              <% }else{ %>
+              <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
+              <% } %>
+              <% }else{ %>
+              <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
+              <% } %>
+            </th>
           </tr>
-
           <tr>
-            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);">Liu123</th>
-            <th class="content " style= "background-color: rgba(255,255,255,0.5);">study for cs statistics and Engl and the final exams will start in two weeks from now on</th>
->>>>>>> origin/liu123
+            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);"><%=schedules[i].creator.local.email%></th>
+            <th class="content " style= "background-color: rgba(255,255,255,0.5);"><%=schedules[i].descrip%></th>
           </tr>
         </table>
+        <%}%>
+      </p>
 
   </body>
 
