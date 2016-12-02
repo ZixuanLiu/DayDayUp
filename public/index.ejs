@@ -13,7 +13,7 @@
 
 <style>
     body {
-      background-image: url('../images.jpg');
+      background-image: url('../images3.jpg');
       background-position: top left;
       background-attachment: fixed;
       background-repeat: no-repeat;
@@ -138,35 +138,60 @@
           </div>
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-
-              <li><a href="/home">Home</a></li>
-              <li><a href="/schedule">My moment</a></li>
-
-              <li><a href="/logout">Logout</a></li>
-
+              <% if(logIn == true){%>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/schedule">My moment</a></li>
+                <li><a href="/logout">Logout</a></li>
+              <% }else{ %>
+                <li><a href="/home">Home</a></li>
+                <li><a href="/login">Login</a></li>
+                <li><a href="/signup">Sign Up</a></li>
+              <%}%>
             </ul>
-
+            <% if(logIn == true){%>
+              <li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+            <% } %>
           </div>
         </div>
       </nav>
 
       <!-- end of navigation bar-->
-      <p class="description"> DayDayUp is a social media website that is designed to help people set up goals and motivate them to achieve it. You can set up goals and stick to them every day. </p>
+      <p class="description"> DayDayUp is a social media website which is designed to help you set up goals and motivate you to stick to them. Create your account and start from today. </p>
 
 
 
-      <p>
-        <%for (var i = 0; i < schedules.length; i++) {%>
-        <%console.log("title is:" + schedules[i].creator.imagePath)%>
+      <p><%for(var i = 0; i < schedules.length; i++) {%>
         <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
           <tr>
-            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking1">1</th>
-            <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="<%=schedules[i].creator.imagePath%>" class="Userimage"></th>
-            <th class="title" style= "background-color: rgba(255,255,255,0.5);"><%=schedules[i].title%></th>
+          <%if(i == 0) {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking1"><%=i + 1%></th>
+          <%} else if(i == 1) {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking2"><%=i + 1%></th>
+          <%} else if(i == 2) {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking3"><%=i + 1%></th>
+          <%} else {%>
+            <th rowspan="2" style="width: 100px; text-shadow: 4px 4px 4px #999;" class="ranking"><%=i + 1%></th>
+          <%}%>
+            <th style="width:180px; background-color: rgba(255,255,255,0.5);" ><img src="../default.jpg" class="Userimage"></th>
+            <th class="title" style= "background-color: rgba(255,255,255,0.5);">
+              <% if(logIn == true){%>
+              <% console.log("user id: " + user._id);
+              console.log("creator id: " + schedules[i].creator._id);
+              %>
+              <% if(user._id.toString() === schedules[i].creator._id.toString()){%>
+              <% console.log("compare is true");
+              %>
+              <a href="/schedule/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
+              <% }else{ %>
+              <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
+              <% } %>
+              <% }else{ %>
+              <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
+              <% } %>
+            </th>
           </tr>
-
           <tr>
-            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);"><%=schedules[i].creator.userName%></th>
+            <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);"><%=schedules[i].creator.local.email%></th>
             <th class="content " style= "background-color: rgba(255,255,255,0.5);"><%=schedules[i].descrip%></th>
           </tr>
         </table>

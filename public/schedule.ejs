@@ -15,7 +15,7 @@
 			 padding-top: 65px;   avoid navigation bar block top part of the content.
 		}*/
 		body {
-			background-image: url('../images.jpg');
+			background-image: url('../images3.jpg');
 			background-position: top left;
 			background-attachment: fixed;
 			background-repeat: no-repeat;
@@ -23,7 +23,8 @@
 		}
 		.contain{
 			margin: auto;
-			padding-top: 100px;
+			padding-top: 40px;
+			padding-bottom: 40px;
 			align-items: center;
 			width: 500px;
 		}
@@ -55,16 +56,21 @@
 			font-size: 16px;
 		}
 		.mySchedules {
-			font-size:130%;
-			color:#385b1f ; 
-			font-weight:bold; 
-			padding: 20px 10px 10px; 
-			text-align:center
+			margin-top: 100px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 500px;
+			text-align: center;
+			color: white;
+			text-shadow: 2px 2px black;
+			font-size: 200%;
+			font-family: "Times New Roman", Times, serif;
+			text-transform: uppercase;
 		}
 		.listStyle {
 			width:410px;
-			/*margin:0 auto;*/
-			margin-left: 370px;
+			margin:0 auto;
+		/*	margin-left: 370px;*/
 		}
 
 		.listStyle ul {
@@ -76,22 +82,23 @@
 		}
 
 		.listStyle ul li{ /*schedule.title*/
+			text-transform: uppercase;
 			position: relative;
 			margin-bottom: 0.8em;
 			padding: 0.5em;
-			background-color: #F0D756;
+			background-color: rgba(240, 215, 86, 0.75);
 			padding-left: 50px;
 		}
 
 		.listStyle a{
 			text-decoration:none;
-			color: #556B2F;
+			color: black;
 			font-size:15px;
 			font-family: 'Raleway', sans-serif;
 		}
 		
 		.listStyle li:hover{
-			box-shadow:inset -1em 0 #385b1f ;
+			box-shadow:inset -1em 0 rgba(94, 151, 53, 0.95) ;
 			-webkit-transition: box-shadow 0.5s; /* For Safari 3.1 to 6.0 */
 			transition: box-shadow 0.5s;
 		}
@@ -107,7 +114,7 @@
 			font-weight: bold;
 			text-align: center;
 			color: white;
-			background-color: #385b1f ;
+			background-color: rgba(94, 151, 53, 0.95);
 			transform: rotate(-20deg);
 			-ms-transform: rotate(-20deg);
 			-webkit-transform: rotate(-20deg);
@@ -122,7 +129,8 @@
 		}
 
 		.description {
-			background-color: #F0D756;
+			background-color: rgba(240, 215, 86, 0.75);
+			color: black;
 			width:395px;
 			margin:0 auto;
 			word-wrap: break-word;
@@ -173,13 +181,14 @@
     <!-- end of navigation bar-->
 
     <!-- form for user input-->
+    <p class="mySchedules">My Schedules:</p>
     
 		<div class="contain">
 			<div class="search">
 				<form action="/schedule" method="post" class="form-class"> 
 					<h4>
-					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br>
-					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="descrip" rows="5" placeholder="brief description of your new schedule"></textarea></label><br><br>		
+					<label>Schedule name: &nbsp<input type="text" class='inputS' name="title" ></label><br><br>
+					<label>Description:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="descrip" rows="5" placeholder="Brief description of your new schedule"></textarea></label><br><br>		
 					<input type="submit" class='btn btn-primary' value="Create">
 					</h4>
 				</form>
@@ -191,8 +200,6 @@
     <% if( schedules.length == 0 ) { %>
        <p class="mySchedules"><text style="text-align: center; color: #00cccc;"> You have not started any schedule yet!</text></p>
     <%} else { %>
-
-	<p class="mySchedules">My Schedules:</p>
 	<div class="listStyle">
 		<ul>
 		<% for (var i = 0; i < schedules.length; i++) { %>
