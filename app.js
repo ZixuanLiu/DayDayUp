@@ -333,7 +333,7 @@ router.route('/home/:id')
           });
       });
 var Comment = require("./lib/comment");
-router.route('/mycomment/:sid/:pid')
+router.route('/comment/:sid/:pid')
 .post(function(req, res) {
       Post.findOne({ '_id': req.params.pid })
         .exec((error, post) => {
