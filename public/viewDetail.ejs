@@ -17,15 +17,6 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<script>
-		// $(document).ready(function(){
-		// 	var id = this.id;
-		// 	console.log("commentid: "+ id);
-		// 	$("#" + id).on("click",function(){
-		// 		 $("#"+boxid).toggle();
-		// 		// console.log("commentid: "+ commentid +" boxid: "+boxid);
-		// 		alert("The paragraph was clicked.");
-		// 	});
-		// });
 		function tog(i) {
 			$("#" + i).toggle();
 		}
@@ -390,15 +381,29 @@
 							</div>
 							</ol>
 							<%}%>
-
-
-
-
+		
 							<%} else {%>
 							<span style="font-size: 12px;"><%= schedules.posts[i].date %></span>
+							<!-- loop through each comment  -->
+							</div>
+
+							<%if (schedules.posts[i].comments.length > 0) {%>
+							<ol style="list-style-type: none;"">
+							<div class="comment">
+								<%for (var j = 0; j < schedules.posts[i].comments.length; j++ ) {%>
+								<li style=" padding-top: 4px;padding-bottom: 4px;">
+								<div style="background-color: rgba(221,221,221,0.7); text-indent: 20px; margin-left: auto; margin-right: auto">
+									<span style="text-transform: uppercase; font-size: 14px; font-weight: bold;"><%=schedules.posts[i].comments[j].creator.local.email%></span>:&nbsp
+									<span><%=schedules.posts[i].comments[j].content%></span>
+									<%}%>
+								</div>
+								</li>
+							</div>
+							</ol>
 							<%}%>
 
-					</div>
+							<%}%>
+
 				</div>
 			</li>
 			<% } %>
