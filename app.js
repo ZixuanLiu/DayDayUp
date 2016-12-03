@@ -148,13 +148,13 @@ router.route('/schedule') //profile page
           if (err) 
             console.log(err);
       });
-
       req.user.local.schedules.push(newSchedule);
       req.user.save(function(err) {
           if (err) 
           console.log(err);
       }); 
       res.redirect('/schedule');
+
   }); 
 
 // remove schedule 
@@ -333,7 +333,7 @@ router.route('/home/:id')
           });
       });
 var Comment = require("./lib/comment");
-router.route('/mycomment/:sid/:pid')
+router.route('/comment/:sid/:pid')
 .post(function(req, res) {
       Post.findOne({ '_id': req.params.pid })
         .exec((error, post) => {
@@ -375,7 +375,6 @@ router.route('/logout') //logout page
 
 
 app.use('/', router);
-
 
 
 
