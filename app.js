@@ -161,13 +161,24 @@ router.route('/schedule') //profile page
 router.route('/schedule/remove/:id')
     .post(function(req, res) {
         Schedule.findOne({'_id': req.params.id})
-        .populate('posts')
+        .populate({path: 'posts',
+            populate:{
+              path: 'comments',
+              model: 'comment'
+            }
+          })
         .exec((err, schedule) => {
             if (err) {
                 res.end('error');
             }
              // remove all the post of this schedule
             for (var i = 0 ; i < schedule.posts.length; i++) {
+                for(var j = 0; j < schedule.posts[i].comments.length; i++){
+                    schedule.posts[i].comments[j].remove(function(err) {
+                      if (err)
+                        res.end('error');
+                    });
+                }
                 schedule.posts[i].remove(function(err) {
                     if (err)
                         res.end('error');
@@ -192,8 +203,15 @@ var Post = require("./lib/post");
 router.route('/schedule/:id')
   .get(isLoggedIn,function(req, res) {
         Schedule.findOne({ '_id': req.params.id })
-        .populate('posts')
-        .populate('posts.comments')
+        .populate({path: 'posts',
+            populate:{
+              path: 'comments',
+              model: 'comment',
+              populate:{
+                path: 'creator'
+              }
+            }
+          })
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
