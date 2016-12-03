@@ -9,6 +9,11 @@
 	<title> DayDayUp </title>
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script>
+		function tog(i) {
+			$("#" + i).toggle();
+		}
+	</script>
 
 	<style>
 		body {
@@ -196,25 +201,23 @@
     <% if( schedules.length == 0 ) { %>
        <p class="mySchedules"><text style="text-align: center; color: white;"> You have not started any schedule yet!</text></p>
     <%} else { %>
-	<div class="listStyle">
-		<ul>
-		<% for (var i = 0; i < schedules.length; i++) { %>
-		    <form Action="/schedule/remove/<%= schedules[i]._id %>" Method="post" >
-				<li>
-					<span><a href = '/schedule/<%= schedules[i]._id %>'> <%= schedules[i].title %></a></span>
-					<button type="submit" class="btn btn-default btn-sm">
-						<span class="glyphicon glyphicon-trash" ></span> 
-					</button>
-				</li>
-				<p class="description"> <%= schedules[i].descrip%></p>
-				<!-- <div style="text-align: right;">
-				<input type="submit" value="Remove" style="margin-bottom: 1.0em;">
-				</div> -->
+    <div class="listStyle">
+    	<ul>
+    	<!-- loop every schedule -->
+    		<% for (var i = 0; i < schedules.length; i++) { %>
+    		<form Action="/schedule/remove/<%= schedules[i]._id %>" Method="post" >
+    			<li>
+    				<span><a href = '/schedule/<%= schedules[i]._id %>'> <%= schedules[i].title %></a></span>
+    				<button type="submit" class="btn btn-default btn-sm">
+    					<span class="glyphicon glyphicon-trash" ></span> 
+    				</button>
+    			</li>
+    			<p class="description"> <%= schedules[i].descrip%></p>
 			</form>
-		<% } %>
+			<% } %>
 		</ul>
 	</div>
-	<% }  %>
+	<% } %>
 
 
 
