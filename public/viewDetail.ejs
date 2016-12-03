@@ -17,11 +17,18 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 	<script>
-		$(document).ready(function(){
-			$("#commentID").on("click",function(){
-				$("#commentBox").toggle();
-			});
-		});
+		// $(document).ready(function(){
+		// 	var id = this.id;
+		// 	console.log("commentid: "+ id);
+		// 	$("#" + id).on("click",function(){
+		// 		 $("#"+boxid).toggle();
+		// 		// console.log("commentid: "+ commentid +" boxid: "+boxid);
+		// 		alert("The paragraph was clicked.");
+		// 	});
+		// });
+		function tog(i) {
+			$("#" + i).toggle();
+		}
 	</script>
 
 	<style>
@@ -288,6 +295,9 @@
 
 
 <body>
+	<%var commentid = " ";%>
+	<%var boxid = " ";%>
+
       	<!-- Navbar -->
 	<!-- <div id="bg"> -->
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -333,6 +343,9 @@
 	<!-- <div class="container"> -->
 		<ul class="timeline">
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
+			<%commentid = "CommentID" + i.toString();%>
+			<%boxid = "BoxID" + i.toString();%>
+
 			<li>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
@@ -341,13 +354,14 @@
 					<div>
 						<div style="text-align: right;">
 							<% if(logIn){%>
-							<span id="commentID">Comment</span>
+							<a onclick="tog(<%=i%>)">Comment</a>
 							&nbsp&nbsp&nbsp&nbsp
 							<span style="font-size: 12px;"><%= schedules.posts[i].date %></span>
 						</div>
-						<div id="commentBox" style="display: none; text-align: center;">
-							<form action="/comment/<%= schedules._id %>/<%= schedules.posts[i]._id%>" method="post" class="form-class"> 
-								<textarea type="text" class='inputY' name="content" rows="5" placeholder="Comment Something here" style="width: 400px; margin-top: 10px; margin-bottom: 10px"></textarea>
+
+						<div id=<%=i%> style="display: none; text-align: center;">
+							<form action="/comment/<%= schedules._id %>/<%schedules.posts[i]._id%>" method="post" class="form-class"> 
+								<textarea type="text" class='inputY' name="descrip" rows="5" placeholder="Comment Something here" style="width: 400px; margin-top: 10px; margin-bottom: 10px"></textarea>
 								<div ><input type="submit" class='btn btn-primary' value="post" style="width: 80px;"><div>
 									<input type="hidden" name="isSame" value="false">
 								</form>
