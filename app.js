@@ -33,8 +33,6 @@ var session      = require('express-session');
 var timediff  = require("timediff");
 var DateDiff = require("date-diff");
 var moment = require("moment");
-//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
-//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,10 +50,7 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
 app.set('view engine', 'ejs');
-// app.use(express.static('app/images'));
-
-// require('./app/scripts/app.js')(app, passport); // google login
- require('./lib/password.js')(passport); //authentication api
+ require('./lib/password.js')(passport);
 
 
 router.use(function(req,res,next){
@@ -64,12 +59,9 @@ router.use(function(req,res,next){
 });
 
 function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
-
-    // if they aren't redirect them to the home page
+    // if they aren't redirect them to the login page
     res.redirect('/login');
 }
 
@@ -77,7 +69,7 @@ function isLoggedIn(req, res, next) {
 
 router.route('/') //main page
   .get(function(req, res) {
-      res.redirect('/schedule');  
+      res.redirect('/home');  
   });
 
 var path = require('path');
@@ -196,8 +188,6 @@ router.route('/schedule/remove/:id')
     });
 
 
-
-//router.route('/schedule/:title')
 var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
@@ -230,7 +220,6 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
-            //console.log("schedule is: " + schedule);
             var newPost = new Post();
             newPost.content = req.body.content; 
             newPost.save(function(err) {
@@ -242,8 +231,6 @@ router.route('/schedule/:id')
             
             var diff = new DateDiff(new Date(), schedule.lastUpdate);
             var diffminutes = diff.minutes();  // set up minutes for testing, later we will change for hours.
-            
-            console.log("diff minutes: " + diffminutes);
             /*
             // method2 : moment.js also works , but not simple as DateDiff above.
             var startTime = moment(schedule.lastUpdate).format("YYYY-M-DD HH:mm:ss");
@@ -305,7 +292,6 @@ router.route('/home')
             logIn: logIn
          });
         }
-        console.log("user status: "+logIn); 
     });
 });
 
@@ -355,14 +341,9 @@ router.route('/comment/:sid/:pid')
                 console.log(error);
                 res.end('error');
             }
-            //console.log("schedule is: " + schedule);
             var newComment = new Comment();
             newComment.content = req.body.content; 
             newComment.creator = req.user._id;
-            //newPost.date = Date.now;
-            console.log( "comment : "+ newComment);
-            console.log( "content : "+ newComment.content);
-            console.log( "isSame : "+ req.body.isSame);
             newComment.save(function(err) {
                 if (err) 
                   console.log("failed to save comment" + err);
