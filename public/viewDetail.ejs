@@ -119,8 +119,11 @@
 			vertical-align: middle;
 		}
 		.header {
-			display: inline;
-			text-indent: 60px;
+			margin-top: 120px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 500px;
+			text-align: center;
 			color: white;
 			text-shadow: 2px 2px black;
 			font-size: 200%;
@@ -128,8 +131,11 @@
 			text-transform: uppercase;
 		}
 		.description {
-			display: inline;
-			text-indent: 100px;
+			margin-left: auto;
+			margin-right: auto;
+			width: 550px;
+			text-align: center;
+			word-wrap: break-word;
 			color: black;
 			text-shadow: 2px 2px white;
 			font-size: 130%;
@@ -289,14 +295,19 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav">
-				
-						<li><a href="/home">Home</a></li>
-						<li><a href="/schedule">My moment</a></li>
-				
-						<li><a href="/logout">Logout</a></li>
-					
-					</ul>
-					<li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+					  <% if(logIn == true){%>
+		                <li><a href="/home">Home</a></li>
+		                <li><a href="/schedule">My moment</a></li>
+		                <li><a href="/logout">Logout</a></li>
+		              <% }else{ %>
+		                <li><a href="/home">Home</a></li>
+		                <li><a href="/login">Login</a></li>
+		                <li><a href="/signup">Sign Up</a></li>
+		              <%}%>
+		            </ul>
+		            <% if(logIn == true){%>
+		              <li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+		            <% } %>
 
 				</div>
 			</div>
@@ -307,20 +318,6 @@
     <!-- form for user input-->
     <h1 class="header"><%= schedules.title %>:</h1>&nbsp&nbsp&nbsp&nbsp<p class="description"><%= schedules.descrip %></p>
 
-    <div class="contain">
-    	<div class="search">
-    		<form action="/schedule/<%= schedules._id %>" method="post" class="form-class" enctype="multipart/form-data" > 
-    			<h4>
-    				<!-- <label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br> -->
-    				<label>Say Something:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="What's on your mind?"></textarea></label><br><br>
-    				<label>upload image: </label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="hidden" name="isSame" value="true"><br><br>
-    				<input type="file" name="image">
-    				<input type="submit" class='btn btn-primary' value="Check-in">
-    			</h4>
-    		</form>
-    	</div>
-    </div>
-
     
 	<% if( schedules.posts.length == 0 ) { %>
        <p class="mySchedules"><text style="text-align: center; color: #556B2F;"> You have not posted anything yet!</text></p>
@@ -329,14 +326,12 @@
 		<ul class="timeline">
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
 			<li>
-			    <img src=<%=schedules.posts[i].imagePath%> alt="Mountain sea" width:"60" height:"60"/>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
 						<h4 class="timeline-title"><%=schedules.posts[i].content%></h4>
 					</div>
 					<div class="timeline-body">
 						<p><%= schedules.posts[i].date %></p>
-						<span name="check" value="true"> </span> 
 					</div>
 				</div>
 			</li>
