@@ -156,7 +156,8 @@
       </nav>
 
       <!-- end of navigation bar-->
-      <p class="description"> DayDayUp is a social media website which is designed to help you set up goals and motivate you to stick to them. Create your account and start from today. </p>
+      
+      <p class="description"><% if(logIn == false){%> DayDayUp is a social media website which is designed to help you set up goals and motivate you to stick to them. <a href="/signup">Create</a> your account and start from today. <%}%></p>
 
       <p><%for(var i = 0; i < schedules.length; i++) {%>
         <table class="center-table" style="margin-top: 20px; margin-bottom: 10px; box-shadow: 4px 4px 4px #999;">
@@ -177,6 +178,7 @@
               <% if(user._id.toString() === schedules[i].creator._id.toString()){%>
               <% console.log("compare is true");
               %>
+              <!-- <input type="hidden" name="isSame" value="true"> -->
               <a href="/schedule/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
               <% }else{ %>
               <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>

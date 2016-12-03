@@ -15,6 +15,11 @@
 
 	<!-- Latest compiled JavaScript -->
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<script>
+		function tog(i) {
+			$("#" + i).toggle();
+		}
+	</script>
 
 	<style>
 		body {
@@ -269,6 +274,14 @@
 		.timeline-body > p + p {
 			margin-top: 5px;
 		}
+		.comment{
+			width: 400px;
+			word-wrap: break-word;
+			margin-top: 15px;
+			margin-bottom: 15px;
+			margin-left: auto;
+			margin-right: auto;
+		}
 	</style>
 </head>
 
@@ -322,7 +335,7 @@
     </div>
 
     
-	<% if( schedules.posts.length == 0 ) { %>
+<% if( schedules.posts.length == 0 ) { %>
        <p class="mySchedules"><text style="text-align: center; color: #556B2F;"> You have not posted anything yet!</text></p>
     <%} else { %>
 	<!-- <div class="container"> -->
@@ -332,18 +345,50 @@
 			    <img src=<%=schedules.posts[i].imagePath%> alt="Mountain sea" width:"60" height:"60"/>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
-						<h4 class="timeline-title"><%=schedules.posts[i].content%></h4>
+						<div class="timeline-title" style="font-size: 20px;"><%=schedules.posts[i].content%></div>
 					</div>
-					<div class="timeline-body">
-						<p><%= schedules.posts[i].date %></p>
-						<span name="check" value="true"> </span> 
+
+
+
+					<div>
+						<div style="text-align: right;">
+							<a onclick="tog(<%=i%>)">Comment</a>
+							&nbsp&nbsp&nbsp&nbsp
+							<span style="font-size: 12px;"><%= schedules.posts[i].date %></span>
+						</div>
+						<div id=<%=i%> style="display: none; text-align: center;">
+						<%console.log("schedule post id is: " + schedules.posts[i]._id);%>
+							<form action="/comment/<%= schedules._id %>/<%=schedules.posts[i]._id%>" method="post" class="form-class"> 
+								<textarea type="text" class='inputY' name="content" rows="5" placeholder="Comment Something here" style="width: 400px; margin-top: 10px; margin-bottom: 10px"></textarea>
+								<div ><input type="submit" class='btn btn-primary' value="post" style="width: 80px;"></div>
+									<input type="hidden" name="isSame" value="true">
+								</form>
+						</div>
+							<!-- <%console.log("comment: "+schedules.posts[i].comments);%> -->
+
+
+							<%if (schedules.posts[i].comments.length > 0) {%>
+							<ol style="list-style-type: none;">
+							<div class="comment">
+								<%for (var j = 0; j < schedules.posts[i].comments.length; j++ ) {%>
+								<li style=" padding-top: 4px;padding-bottom: 4px;">
+								<div style="text-indent: 20px; background-color: rgba(221,221,221,0.7);">
+									<span style="text-transform: uppercase; font-size: 14px; font-weight: bold;"><%=schedules.posts[i].comments[j].creator.local.email%></span>:&nbsp
+									<span><%=schedules.posts[i].comments[j].content%></span>
+									<%}%>
+								</div>
+								</li>
+							</div>
+							</ol>
+							<%}%>
+
 					</div>
 				</div>
 			</li>
 			<% } %>
 		</ul>
 	<!-- </div>  -->
-	 <% }  %>
+	 <%}%>
 
 	<!-- </div> -->
 

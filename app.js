@@ -33,14 +33,15 @@ var session      = require('express-session');
 var timediff  = require("timediff");
 var DateDiff = require("date-diff");
 var moment = require("moment");
+
 var multer = require("multer");
 var upload = multer({dest: 'public/DayDayUp_files'});
 var fs = require('fs');
 var multipart = require('connect-multiparty');
 
 var multipartMiddleware = multipart();
-//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
-//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
+
+
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -58,10 +59,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
 app.set('view engine', 'ejs');
-// app.use(express.static('app/images'));
 
-// require('./app/scripts/app.js')(app, passport); // google login
- require('./lib/password.js')(passport); //authentication api
+require('./lib/password.js')(passport);
 
 
 router.use(function(req,res,next){
@@ -70,12 +69,9 @@ router.use(function(req,res,next){
 });
 
 function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
-
-    // if they aren't redirect them to the home page
+    // if they aren't redirect them to the login page
     res.redirect('/login');
 }
 
@@ -83,7 +79,7 @@ function isLoggedIn(req, res, next) {
 
 router.route('/') //main page
   .get(function(req, res) {
-      res.redirect('/schedule');  
+      res.redirect('/home');  
   });
 
 var path = require('path');
@@ -167,15 +163,26 @@ router.route('/schedule') //profile page
 router.route('/schedule/remove/:id')
     .post(function(req, res) {
 
-       // remove this schedule for users' schedule list
+
         Schedule.findOne({'_id': req.params.id})
-        .populate('posts')
+        .populate({path: 'posts',
+            populate:{
+              path: 'comments',
+              model: 'comment'
+            }
+          })
         .exec((err, schedule) => {
             if (err) {
                 res.end('error');
             }
              // remove all the post of this schedule
             for (var i = 0 ; i < schedule.posts.length; i++) {
+                for(var j = 0; j < schedule.posts[i].comments.length; i++){
+                    schedule.posts[i].comments[j].remove(function(err) {
+                      if (err)
+                        res.end('error');
+                    });
+                }
                 schedule.posts[i].remove(function(err) {
                     if (err)
                         res.end('error');
@@ -193,15 +200,20 @@ router.route('/schedule/remove/:id')
     });
 
 
-
-//router.route('/schedule/:title')
 var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
   .get(isLoggedIn,function(req, res) {
         Schedule.findOne({ '_id': req.params.id })
-        .populate('posts')
-        .populate('posts.comments')
+        .populate({path: 'posts',
+            populate:{
+              path: 'comments',
+              model: 'comment',
+              populate:{
+                path: 'creator'
+              }
+            }
+          })
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -231,6 +243,7 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
+
           
           console.log("req.body:" + JSON.stringify(req.body));
           console.log("req.files:" + JSON.stringify(req.files)); 
@@ -255,7 +268,7 @@ router.route('/schedule/:id')
            });
            
             //console.log("schedule is: " + schedule);
-            
+
             var newPost = new Post();
             newPost.content = req.body.content; 
             //newPost.imagePath =  __dirname + "/" + req.files[0].path;
@@ -271,8 +284,6 @@ router.route('/schedule/:id')
             
             var diff = new DateDiff(new Date(), schedule.lastUpdate);
             var diffminutes = diff.minutes();  // set up minutes for testing, later we will change for hours.
-            
-            console.log("diff minutes: " + diffminutes);
             /*
             // method2 : moment.js also works , but not simple as DateDiff above.
             var startTime = moment(schedule.lastUpdate).format("YYYY-M-DD HH:mm:ss");
@@ -351,7 +362,6 @@ router.route('/home')
 
          });
         }
-        console.log("user status: "+logIn); 
     });
 });
 
@@ -359,9 +369,17 @@ router.route('/home')
 router.route('/home/:id')
     .get(function(req, res) {
         Schedule.findOne({ '_id': req.params.id })
-        .populate('posts')
+        .populate({path: 'posts',
+            populate:{
+              path: 'comments',
+              model: 'comment',
+              populate:{
+                path: 'creator'
+              }
+            }
+          })
         .populate('creator')
-        .populate('posts.comments')
+        //.populate('posts.comments')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -385,7 +403,7 @@ router.route('/home/:id')
           });
       });
 var Comment = require("./lib/comment");
-router.route('/mycomment/:sid/:pid')
+router.route('/comment/:sid/:pid')
 .post(function(req, res) {
       Post.findOne({ '_id': req.params.pid })
         .exec((error, post) => {
@@ -393,19 +411,15 @@ router.route('/mycomment/:sid/:pid')
                 console.log(error);
                 res.end('error');
             }
-            //console.log("schedule is: " + schedule);
             var newComment = new Comment();
             newComment.content = req.body.content; 
             newComment.creator = req.user._id;
-            //newPost.date = Date.now;
-            console.log( "comment : "+ newComment);
-
             newComment.save(function(err) {
                 if (err) 
                   console.log("failed to save comment" + err);
             });
 
-            post.comments.push(newPost);
+            post.comments.push(newComment);
             post.save(function(err) {
                 if (err) 
                 console.log("fail to push post" + err);
