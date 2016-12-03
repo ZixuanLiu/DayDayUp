@@ -346,12 +346,13 @@
 							<span style="font-size: 12px;"><%= schedules.posts[i].date %></span>
 						</div>
 						<div id="commentBox" style="display: none; text-align: center;">
-							<form action="/comment/<%= schedules._id %>/<%schedules.posts[i]._id%>" method="post" class="form-class"> 
-								<textarea type="text" class='inputY' name="descrip" rows="5" placeholder="Comment Something here" style="width: 400px; margin-top: 10px; margin-bottom: 10px"></textarea>
+							<form action="/comment/<%= schedules._id %>/<%= schedules.posts[i]._id%>" method="post" class="form-class"> 
+								<textarea type="text" class='inputY' name="content" rows="5" placeholder="Comment Something here" style="width: 400px; margin-top: 10px; margin-bottom: 10px"></textarea>
 								<div ><input type="submit" class='btn btn-primary' value="post" style="width: 80px;"><div>
 									<input type="hidden" name="isSame" value="false">
 								</form>
 							</div>
+							<%console.log("comment: "+schedules.posts[i].comments);%>
 							<%} else {%>
 							<span style="font-size: 12px;"><%= schedules.posts[i].date %></span>
 							<%}%>			

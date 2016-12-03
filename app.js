@@ -51,7 +51,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
-// app.set('view engine', 'ejs');
+app.set('view engine', 'ejs');
 // app.use(express.static('app/images'));
 
 // require('./app/scripts/app.js')(app, passport); // google login
@@ -160,18 +160,6 @@ router.route('/schedule') //profile page
 // remove schedule 
 router.route('/schedule/remove/:id')
     .post(function(req, res) {
-        // remove all the post of this schedule.  
-        //console.log("remove schedule id: " + req.params.id);
-        /*
-       Schedule.update({"_id": req.params.id},{ $set: { posts : [] } }, function(error){
-             if (error) {
-                console.log(error);
-                res.end('error');
-            }
-         });
-        */
-
-       // remove this schedule for users' schedule list
         Schedule.findOne({'_id': req.params.id})
         .populate('posts')
         .exec((err, schedule) => {
@@ -307,9 +295,17 @@ router.route('/home')
 router.route('/home/:id')
     .get(function(req, res) {
         Schedule.findOne({ '_id': req.params.id })
-        .populate('posts')
+        .populate({path: 'posts',
+            populate:{
+              path: 'comments',
+              model: 'comment',
+              populate:{
+                path: 'creator'
+              }
+            }
+          })
         .populate('creator')
-        .populate('posts.comments')
+        //.populate('posts.comments')
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
@@ -347,13 +343,14 @@ router.route('/comment/:sid/:pid')
             newComment.creator = req.user._id;
             //newPost.date = Date.now;
             console.log( "comment : "+ newComment);
-
+            console.log( "content : "+ newComment.content);
+            console.log( "isSame : "+ req.body.isSame);
             newComment.save(function(err) {
                 if (err) 
                   console.log("failed to save comment" + err);
             });
 
-            post.comments.push(newPost);
+            post.comments.push(newComment);
             post.save(function(err) {
                 if (err) 
                 console.log("fail to push post" + err);
