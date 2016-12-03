@@ -178,6 +178,7 @@
               <% if(user._id.toString() === schedules[i].creator._id.toString()){%>
               <% console.log("compare is true");
               %>
+              <!-- <input type="hidden" name="isSame" value="true"> -->
               <a href="/schedule/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
               <% }else{ %>
               <a href="/home/<%= schedules[i]._id %>"><%=schedules[i].title%></a>
