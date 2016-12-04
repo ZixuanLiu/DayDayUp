@@ -261,7 +261,7 @@ router.route('/schedule/:id')
             // calculte the time difference
             
             var diff = new DateDiff(new Date(), schedule.lastUpdate);
-            var diffminutes = diff.minutes();  // set up minutes for testing, later we will change for hours.
+            var diffminutes = diff.hours();  // set up minutes for testing, later we will change for hours.
             /*
             // method2 : moment.js also works , but not simple as DateDiff above.
             var startTime = moment(schedule.lastUpdate).format("YYYY-M-DD HH:mm:ss");
@@ -271,7 +271,7 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-            if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
+            if (diffminutes < 48) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
             }
