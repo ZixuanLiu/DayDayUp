@@ -249,6 +249,7 @@ router.route('/schedule/:id')
             newPost.content = req.body.content; 
             if(isUpload == true){
               newPost.imagePath = '../images/' + req.files.image.name;
+              console.log(newPost.imagePath);
             }
             else{
               newPost.imagePath = "empty";
