@@ -40,7 +40,7 @@
 		  background: rgb(34,34,34); /* for IE */
 		  background: rgba(34,34,34,0.55);
 		}
-		.search h6, .search h4, .search h4 a { text-align: center; color: #ddd; font-weight: normal; }
+		.search h6, .search h4, .search h4 a { color: #ddd; font-weight: normal; }
 		.form-class{
 			margin: 0 auto;
 		}
@@ -282,6 +282,20 @@
 			margin-left: auto;
 			margin-right: auto;
 		}
+		input[type="file"]{
+			display: none;
+		}
+		.file-upload{
+			display: inline-block;
+			padding: 6px 12px;
+			cursor: pointer;
+			font-size: 16px;
+			font-family:  Arial, Helvetica, sans-serif;
+			font-weight: normal;
+			background: rgba(0,0,0,0.5);
+			color: #ddd;
+			border-radius: 5px;
+		}
 	</style>
 </head>
 
@@ -326,10 +340,16 @@
     			<h4>
     				<!-- <label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br> -->
     				<label>Say Something:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="What's on your mind?"></textarea></label><br><br>
-    				<label>upload image: </label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
-    				<input type="hidden" name="isSame" value="true"><br><br>
-    				<input type="file" name="image">
-    				<input type="submit" class='btn btn-primary' value="Check-in">
+					<div style="text-align: center;">
+    				<label for="up" class="file-upload">Upload Images Here</label>
+    					<input id="up" type="file" name="image"/>
+    				</div>
+    	
+					
+					<div style="text-align: center; clear: both;">
+    				<input type="hidden" name="isSame" value="true">
+    				<input type="submit" class='btn btn-primary' value="Check-in" style="margin-top: 12px;">
+    				</div>
     			</h4>
     		</form>
     	</div>
@@ -343,12 +363,14 @@
 		<ul class="timeline">
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
 			<li>
-				<% if(schedules.posts[i].imagePath !== "empty"){ %>
-			    <img src=<%= schedules.posts[i].imagePath %> alt="Mountain sea" width="40" height="40"/>
-			    <%}%>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
 						<div class="timeline-title" style="font-size: 20px;"><%=schedules.posts[i].content%></div>
+						<% if(schedules.posts[i].imagePath !== "empty"){ %>
+						<div style="text-align: center; margin-top: 5px; margin-bottom: 5px;">
+						<img src=<%= schedules.posts[i].imagePath %> alt="Mountain sea" width="230" height="150"/>
+						</div>
+						<%}%>
 					</div>
 
 
