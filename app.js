@@ -219,17 +219,6 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
-            /*
-           //res.writeHead(200, {'Content-Type': 'image/jpg' });
-           for (var i = 0 ; i < schedule.posts.length; i++) {
-             //  console.log("in get methodsimage path  " + i + ": "+ schedule.posts[i].imagePath);
-               var img = fs.readFileSync(schedule.posts[2].imagePath);
-               res.end(img, 'binary');
-           } 
-           */
-        
-          //
-          
           res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
@@ -244,13 +233,15 @@ router.route('/schedule/:id')
                 res.end('error');
             }
 
-          
-          console.log("req.body:" + JSON.stringify(req.body));
-          console.log("req.files:" + JSON.stringify(req.files)); 
-          var newPath;     
-          fs.readFile(req.files.image.path, function (err, data) {
-            var imageName = req.files.image.name;
-            console.log(imageName);
+            /* 
+            //upload image file 
+            console.log("req.body:" + JSON.stringify(req.body));
+            console.log("req.files:" + JSON.stringify(req.files)); 
+            console.log("image name: " + req.files.image.name); 
+            var newPath; 
+            var imageName = req.files.image.name;   
+            fs.readFile(req.files.image.path, function (err, data) {
+            console.log("image name: " + imageName);
             // If there's an error
             if(!imageName){
               console.log("There was an error")
@@ -258,28 +249,15 @@ router.route('/schedule/:id')
               res.end();
             } else {
                 newPath = __dirname + "/public/images/" + imageName;
-              // write file to uploads/fullsize folder
+             
                 fs.writeFile(newPath, data, function (err) {
-                // let's see it
-                
-               });
-                //res.redirect("/uploads/fullsize/" + imageName);
-            }
-           });
-           
-            //console.log("schedule is: " + schedule);
-
-            var newPost = new Post();
-            newPost.content = req.body.content; 
-            //newPost.imagePath =  __dirname + "/" + req.files[0].path;
-            //newPost.imagePath = req.files[0].filename ;
-            newPost.imagePath = "../mountain.jpg";
-            console.log("newPost.imagePath: " + newPost.imagePath);
-            newPost.save(function(err) {
-                if (err) 
-                  console.log("failed to save post" + err);
+             
             });
-
+                //res.redirect("/uploads/fullsize/" + imageName);
+              }
+            });
+            */
+         
             // calculte the time difference
             
             var diff = new DateDiff(new Date(), schedule.lastUpdate);
@@ -293,7 +271,19 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-           
+
+              console.log("new Path" + newPath);
+              var newPost = new Post();
+              newPost.content = req.body.content; 
+              //newPost.imagePath =  __dirname + "/" + req.files[0].path;
+              newPost.imagePath = "../images/" + imageName ;
+              //newPost.imagePath = "../DayDayUp_files/mountain.jpg";
+              console.log("newPost.imagePath: " + newPost.imagePath);
+              newPost.save(function(err) {
+                      if (err) 
+                        console.log("failed to save post" + err);
+              });
+              
             if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
@@ -335,7 +325,6 @@ router.route("/uploads/fullsize/:file")
 var User = require("./lib/user");
 router.route('/home')
   .get(function(req, res) {
-
     // list all the schedules with the first 2 maximum score.
     Schedule.find({})
     .sort({score: -1})
@@ -364,7 +353,6 @@ router.route('/home')
         }
     });
 });
-
 
 router.route('/home/:id')
     .get(function(req, res) {
@@ -432,9 +420,6 @@ router.route('/comment/:sid/:pid')
             }
         });
   }); 
-
-
-
 
 
 router.route('/logout') //logout page
