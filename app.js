@@ -245,7 +245,7 @@ router.route('/schedule/:id')
               });
           };
 
-           var newPost = new Post();
+            var newPost = new Post();
             newPost.content = req.body.content; 
             if(isUpload == true){
               newPost.imagePath = '../images/' + req.files.image.name;
@@ -262,7 +262,7 @@ router.route('/schedule/:id')
             // calculte the time difference
             
             var diff = new DateDiff(new Date(), schedule.lastUpdate);
-            var diffminutes = diff.minutes();  // set up minutes for testing, later we will change for hours.
+            var diffminutes = diff.hours();  // set up minutes for testing, later we will change for hours.
             /*
             // method2 : moment.js also works , but not simple as DateDiff above.
             var startTime = moment(schedule.lastUpdate).format("YYYY-M-DD HH:mm:ss");
@@ -272,7 +272,7 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-            if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
+            if (diffminutes < 48) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
             }
@@ -293,19 +293,7 @@ router.route('/schedule/:id')
             res.redirect('/schedule/' + req.params.id);
         });
   }); 
-/*
-router.route("/uploads/fullsize/:file") 
-.get(function(req, res) {
 
-  file = req.params.file;
-  var img = fs.readFileSync(__dirname + "/public/images/" + file);
-  res.writeHead(200, {'Content-Type': 'image/jpg' });
-  res.end(img, 'binary');
-  res.send("<html> <img src=\"" + img + "\"></html>");
-
-});
-
-*/
 
 // set up routes for home page
 var User = require("./lib/user");
@@ -378,6 +366,45 @@ router.route('/home/:id')
             }
           });
       });
+router.route('/upload')
+  .get(function(req, res) {
+      res.render("../public/test.ejs",{
+             user : req.user
+          });
+  })
+  .post( multipartMiddleware, function(req, res) {
+    User.findOne({ '_id': req.user._id })
+        .exec((error, user) => {
+            if (error) {
+                console.log(error);
+                res.end('error');
+            }
+            var isUpload = false;
+            var tempPath = req.files.image.path,
+                targetPath = path.resolve('./public/images/' + req.files.image.name);
+            if (path.extname(req.files.image.name).toLowerCase() === '.jpg') {
+                fs.rename(tempPath, targetPath, function(err) {
+                    if (err) throw err;
+                    console.log("Upload completed!");
+                });
+                isUpload = true;
+            } else {
+                fs.unlink(tempPath, function (err) {
+                    if (err) throw err;
+                    console.error("Only .jpg files are allowed!");
+                });
+          }; 
+          if(isUpload == true){
+              user.local.imagePath = '../images/' + req.files.image.name;
+          }
+          user.save(function(err) {
+              if (err) 
+                console.log("failed to save user" + err);
+          });
+          res.redirect(req.url);
+        });
+  });
+
 var Comment = require("./lib/comment");
 router.route('/comment/:sid/:pid')
 .post(function(req, res) {
