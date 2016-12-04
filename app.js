@@ -33,15 +33,22 @@ var session      = require('express-session');
 var timediff  = require("timediff");
 var DateDiff = require("date-diff");
 var moment = require("moment");
-//mongoose.connect('mongodb://cabc22da-166e-438e-af1d-9398a362f2aa:32c2777b-d8d1-4ab7-9efc-e71df60a69af@192.155.243.9:10126/db');
-//mongoose.connect('mongodb://tester:abc123@ds021166.mlab.com:21166/playground');
+
+var multer = require("multer");
+var upload = multer({dest: 'public/DayDayUp_files'});
+var fs = require('fs');
+var multipart = require('connect-multiparty');
+
+var multipartMiddleware = multipart();
+
+
 mongoose.connect('mongodb://kathy789:FANNAO456!@ds111178.mlab.com:11178/daydayup');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser());
+app.use(bodyParser({uploadDir:'/path/to/temporary/directory/to/store/uploaded/files'}));
 
 var port = process.env.VCAP_APP_PORT || 8070;
 var router = express.Router();
@@ -52,10 +59,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash());
 
 app.set('view engine', 'ejs');
-// app.use(express.static('app/images'));
 
-// require('./app/scripts/app.js')(app, passport); // google login
- require('./lib/password.js')(passport); //authentication api
+require('./lib/password.js')(passport);
 
 
 router.use(function(req,res,next){
@@ -64,12 +69,9 @@ router.use(function(req,res,next){
 });
 
 function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on
     if (req.isAuthenticated())
         return next();
-
-    // if they aren't redirect them to the home page
+    // if they aren't redirect them to the login page
     res.redirect('/login');
 }
 
@@ -77,7 +79,7 @@ function isLoggedIn(req, res, next) {
 
 router.route('/') //main page
   .get(function(req, res) {
-      res.redirect('/schedule');  
+      res.redirect('/home');  
   });
 
 var path = require('path');
@@ -131,19 +133,15 @@ router.route('/schedule') //profile page
         });
   })
   .post(function(req, res) {
-      console.log(req.user.local.email);
       var newSchedule = new Schedule();
       newSchedule.creator = req.user._id; 
-      console.log("user id:" + req.user._id);
       newSchedule.title = req.body.title;
       newSchedule.descrip = req.body.descrip;
-      console.log( "title : "+ req.body.title);
       // set lastupdate for schedule
       newSchedule.lastUpdate = new Date();
       newSchedule.createdBy = newSchedule.lastupdate;
       newSchedule.score = 0;
 
-      console.log("lastUpdate: " + newSchedule.lastUpdate);
       newSchedule.save(function(err) {
           if (err) 
             console.log(err);
@@ -160,6 +158,8 @@ router.route('/schedule') //profile page
 // remove schedule 
 router.route('/schedule/remove/:id')
     .post(function(req, res) {
+
+
         Schedule.findOne({'_id': req.params.id})
         .populate({path: 'posts',
             populate:{
@@ -196,8 +196,6 @@ router.route('/schedule/remove/:id')
     });
 
 
-
-//router.route('/schedule/:title')
 var Post = require("./lib/post");
 // routes for post page
 router.route('/schedule/:id')
@@ -217,22 +215,44 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
-           res.render('../public/detail.ejs', {
+          
+          res.render('../public/detail.ejs', {
               user : req.user,
               schedules: schedule
            }); 
         });
   })
-  .post(function(req, res) {
+  .post( multipartMiddleware, function(req, res) {
       Schedule.findOne({ '_id': req.params.id })
         .exec((error, schedule) => {
             if (error) {
                 console.log(error);
                 res.end('error');
             }
-            //console.log("schedule is: " + schedule);
-            var newPost = new Post();
+          var isUpload = false;
+          var tempPath = req.files.image.path,
+              targetPath = path.resolve('./public/images/' + req.files.image.name);
+          if (path.extname(req.files.image.name).toLowerCase() === '.jpg') {
+              fs.rename(tempPath, targetPath, function(err) {
+                  if (err) throw err;
+                  console.log("Upload completed!");
+              });
+              isUpload = true;
+          } else {
+              fs.unlink(tempPath, function (err) {
+                  if (err) throw err;
+                  console.error("Only .jpg files are allowed!");
+              });
+          };
+
+           var newPost = new Post();
             newPost.content = req.body.content; 
+            if(isUpload == true){
+              newPost.imagePath = '../images/' + req.files.image.name;
+            }
+            else{
+              newPost.imagePath = "empty";
+            }
             newPost.save(function(err) {
                 if (err) 
                   console.log("failed to save post" + err);
@@ -242,8 +262,6 @@ router.route('/schedule/:id')
             
             var diff = new DateDiff(new Date(), schedule.lastUpdate);
             var diffminutes = diff.minutes();  // set up minutes for testing, later we will change for hours.
-            
-            console.log("diff minutes: " + diffminutes);
             /*
             // method2 : moment.js also works , but not simple as DateDiff above.
             var startTime = moment(schedule.lastUpdate).format("YYYY-M-DD HH:mm:ss");
@@ -264,7 +282,7 @@ router.route('/schedule/:id')
             }
             // update lastUpdate time for the current schedule
             schedule.lastUpdate = new Date();
-            console.log("score: " + schedule.score);
+            //console.log("score: " + schedule.score);
             
             schedule.posts.push(newPost);
             schedule.save(function(err) {
@@ -274,7 +292,19 @@ router.route('/schedule/:id')
             res.redirect('/schedule/' + req.params.id);
         });
   }); 
+/*
+router.route("/uploads/fullsize/:file") 
+.get(function(req, res) {
 
+  file = req.params.file;
+  var img = fs.readFileSync(__dirname + "/public/images/" + file);
+  res.writeHead(200, {'Content-Type': 'image/jpg' });
+  res.end(img, 'binary');
+  res.send("<html> <img src=\"" + img + "\"></html>");
+
+});
+
+*/
 
 // set up routes for home page
 var User = require("./lib/user");
@@ -290,6 +320,7 @@ router.route('/home')
         if(err) {
             res.end('error');
         }
+  
         var logIn = false;
         if (req.isAuthenticated()){
           logIn = true;
@@ -303,9 +334,9 @@ router.route('/home')
           res.render("../public/index.ejs", {
             schedules: schedule,
             logIn: logIn
+
          });
         }
-        console.log("user status: "+logIn); 
     });
 });
 
@@ -355,14 +386,9 @@ router.route('/comment/:sid/:pid')
                 console.log(error);
                 res.end('error');
             }
-            //console.log("schedule is: " + schedule);
             var newComment = new Comment();
             newComment.content = req.body.content; 
             newComment.creator = req.user._id;
-            //newPost.date = Date.now;
-            console.log( "comment : "+ newComment);
-            console.log( "content : "+ newComment.content);
-            console.log( "isSame : "+ req.body.isSame);
             newComment.save(function(err) {
                 if (err) 
                   console.log("failed to save comment" + err);
@@ -381,6 +407,11 @@ router.route('/comment/:sid/:pid')
             }
         });
   }); 
+
+
+
+
+
 router.route('/logout') //logout page
   .get(function(req, res) {
       req.logOut();
