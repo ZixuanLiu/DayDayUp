@@ -344,6 +344,9 @@
 		<ul class="timeline">
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
 			<li>
+				<% if(schedules.posts[i].imagePath !== "empty"){ %>
+			    <img src=<%= schedules.posts[i].imagePath %> alt="Mountain sea" width="40" height="40"/>
+			    <%}%>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
 						<div class="timeline-title" style="font-size: 20px;"><%=schedules.posts[i].content%></div>
