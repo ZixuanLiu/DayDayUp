@@ -149,7 +149,7 @@
               <%}%>
             </ul>
             <% if(logIn == true){%>
-              <li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+              <li style="float: right; padding-top: 5px; color: gray;"><a href="/upload"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" /></a>&nbsp&nbsp<%= user.local.email %></li>
             <% } %>
           </div>
         </div>
@@ -189,15 +189,10 @@
             </th>
           </tr>
           <tr>
-<<<<<<< HEAD
-            
-          
-            <td> <%=schedules[i].creator.local.userName%> </td>
-            <td><%=schedules[i].descrip%></td>
-=======
+
             <th class="userName" style="width:180px; background-color: rgba(255,255,255,0.5);"><%=schedules[i].creator.local.email%></th>
             <th class="content " style= "background-color: rgba(255,255,255,0.5);"><%=schedules[i].descrip%></th>
->>>>>>> master
+
           </tr>
         </table>
         <%}%>

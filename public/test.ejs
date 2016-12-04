@@ -7,16 +7,118 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
   <title> DayDayUp </title>
+  <!-- Bootstrap CSS -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+  <style>
+/*    body {
+       padding-top: 65px;   avoid navigation bar block top part of the content.
+    }*/
+/*    h1{
+      margin-top: 100px;
+      font-size: 3.375rem;
+      line-height: 48px;
+      line-height: 3rem;
+      text-align: center;
+      color: #fff;
+      -webkit-font-smoothing: antialiased;
+      margin-bottom: 10px;
+      font-family:  "Times New Roman", Times, serif;
+      font-weight: normal;
+      z-index: 9999;
+    }
+
+    .intro {
+
+    }*/
+    body {
+      background-image: url('../images2.jpg');
+      background-position: top left;
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+    .contain{
+      margin: auto;
+      padding-top: 180px;
+      align-items: center;
+      width: 500px;
+    }
+    .search {/*black login panel */
+      padding: 30px;
+      background: rgb(34,34,34); /* for IE */
+      background: rgba(34,34,34,0.55);
+    }
+    .search h6, .search h4, .search h4 a { text-align: center; color: #ddd; font-weight: normal; }
+    .form-class{
+      margin: 0 auto;
+    }
+    .inputS{
+      color: gray;
+      padding-left: 5px;
+      font-weight: normal;
+    }
+
+    .alertS{
+      color: #990000;
+      text-align: center;
+      padding-left: 30px;
+    }
+  </style>
+    
 </head>
+<body>
+       
 
-  <body>
+  <!-- Navbar -->
+  <!-- <div id="bg"> -->
+<!--  <img src="../images.jpg" id="bg" alt="" style="z-index: -1; opacity: 0.85"> -->
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">Day Day Up</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/schedule">My moment</a></li>
+        
+            <li><a href="/logout">Logout</a></li>
+          
+          </ul>
+          <li style="float: right; padding-top: 5px; color: gray;"><img src=<%= user.local.imagePath %> height="40" width="40" style="border-radius: 25px;" />&nbsp&nbsp<%= user.local.email %></li>
+        </div>
+      </div>
+    </nav>
 
-   <form method="post" enctype="multipart/form-data" action="/upload">
-    <input type="file" name="file">
-    <input type="submit" value="Submit">
-   </form>
-   <img src="/image.png" />
-  </body>
+    <!-- end of navigation bar-->
+<!--  <h1>Stick to Your Goals</h1> -->
+    <!-- form for user input-->
+    <div style="margin-top: 50px; position: relative; z-index: 9999;">
+      <div class="contain">
+        <div class="search">
+          <form action="/upload" method="post" class="form-class" enctype="multipart/form-data" > 
+            <h4>
+            <label>upload image: </label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+            <input type="file" name="image">
+            <input type="submit" class='btn btn-primary' value="Upload">
+            </h4>
+          </form>
+        </div>
+      </div>
+    </div>
+<!--  </div> -->
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
 
 </html>
+
+
