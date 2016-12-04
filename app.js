@@ -48,7 +48,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(morgan('dev'));
 app.use(cookieParser());
-app.use(bodyParser());
+app.use(bodyParser({uploadDir:'/path/to/temporary/directory/to/store/uploaded/files'}));
 
 var port = process.env.VCAP_APP_PORT || 8070;
 var router = express.Router();
@@ -133,19 +133,15 @@ router.route('/schedule') //profile page
         });
   })
   .post(function(req, res) {
-      console.log(req.user.local.email);
       var newSchedule = new Schedule();
       newSchedule.creator = req.user._id; 
-      console.log("user id:" + req.user._id);
       newSchedule.title = req.body.title;
       newSchedule.descrip = req.body.descrip;
-      console.log( "title : "+ req.body.title);
       // set lastupdate for schedule
       newSchedule.lastUpdate = new Date();
       newSchedule.createdBy = newSchedule.lastupdate;
       newSchedule.score = 0;
 
-      console.log("lastUpdate: " + newSchedule.lastUpdate);
       newSchedule.save(function(err) {
           if (err) 
             console.log(err);
@@ -219,16 +215,6 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
-            /*
-           //res.writeHead(200, {'Content-Type': 'image/jpg' });
-           for (var i = 0 ; i < schedule.posts.length; i++) {
-             //  console.log("in get methodsimage path  " + i + ": "+ schedule.posts[i].imagePath);
-               var img = fs.readFileSync(schedule.posts[2].imagePath);
-               res.end(img, 'binary');
-           } 
-           */
-        
-          //
           
           res.render('../public/detail.ejs', {
               user : req.user,
@@ -243,38 +229,30 @@ router.route('/schedule/:id')
                 console.log(error);
                 res.end('error');
             }
+          var isUpload = false;
+          var tempPath = req.files.image.path,
+              targetPath = path.resolve('./public/images/' + req.files.image.name);
+          if (path.extname(req.files.image.name).toLowerCase() === '.jpg') {
+              fs.rename(tempPath, targetPath, function(err) {
+                  if (err) throw err;
+                  console.log("Upload completed!");
+              });
+              isUpload = true;
+          } else {
+              fs.unlink(tempPath, function (err) {
+                  if (err) throw err;
+                  console.error("Only .jpg files are allowed!");
+              });
+          };
 
-          
-          console.log("req.body:" + JSON.stringify(req.body));
-          console.log("req.files:" + JSON.stringify(req.files)); 
-          var newPath;     
-          fs.readFile(req.files.image.path, function (err, data) {
-            var imageName = req.files.image.name;
-            console.log(imageName);
-            // If there's an error
-            if(!imageName){
-              console.log("There was an error")
-              res.redirect("/");
-              res.end();
-            } else {
-                newPath = __dirname + "/public/images/" + imageName;
-              // write file to uploads/fullsize folder
-                fs.writeFile(newPath, data, function (err) {
-                // let's see it
-                
-               });
-                //res.redirect("/uploads/fullsize/" + imageName);
-            }
-           });
-           
-            //console.log("schedule is: " + schedule);
-
-            var newPost = new Post();
+           var newPost = new Post();
             newPost.content = req.body.content; 
-            //newPost.imagePath =  __dirname + "/" + req.files[0].path;
-            //newPost.imagePath = req.files[0].filename ;
-            newPost.imagePath = "../mountain.jpg";
-            console.log("newPost.imagePath: " + newPost.imagePath);
+            if(isUpload == true){
+              newPost.imagePath = '../images/' + req.files.image.name;
+            }
+            else{
+              newPost.imagePath = "empty";
+            }
             newPost.save(function(err) {
                 if (err) 
                   console.log("failed to save post" + err);
@@ -293,7 +271,6 @@ router.route('/schedule/:id')
             var diffminutes = moment(endTime).diff(startTime, 'minutes');
             console.log("diffminutes: " + diffminutes);
             */
-           
             if (diffminutes < 3) {  // modify 3 minutes to 24 hours later.
 
                 schedule.score ++;
@@ -305,7 +282,7 @@ router.route('/schedule/:id')
             }
             // update lastUpdate time for the current schedule
             schedule.lastUpdate = new Date();
-            console.log("score: " + schedule.score);
+            //console.log("score: " + schedule.score);
             
             schedule.posts.push(newPost);
             schedule.save(function(err) {
@@ -313,9 +290,7 @@ router.route('/schedule/:id')
                 console.log("fail to push schedule" + err);
             }); 
             res.redirect('/schedule/' + req.params.id);
-            
-            
-        });     
+        });
   }); 
 /*
 router.route("/uploads/fullsize/:file") 

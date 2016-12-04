@@ -326,7 +326,8 @@
     			<h4>
     				<!-- <label>Schedule name: &nbsp<input type="text" class='inputS' name="title"></label><br><br> -->
     				<label>Say Something:&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<textarea type="text" class='inputY' name="content" rows="5" placeholder="What's on your mind?"></textarea></label><br><br>
-    				<label>upload image: </label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<input type="hidden" name="isSame" value="true"><br><br>
+    				<label>upload image: </label>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+    				<input type="hidden" name="isSame" value="true"><br><br>
     				<input type="file" name="image">
     				<input type="submit" class='btn btn-primary' value="Check-in">
     			</h4>
@@ -342,7 +343,9 @@
 		<ul class="timeline">
 			<% for (var i = 0; i < schedules.posts.length; i++) { %>
 			<li>
-			    <img src=<%=schedules.posts[i].imagePath%> alt="Mountain sea" width:"60" height:"60"/>
+				<% if(schedules.posts[i].imagePath !== "empty"){ %>
+			    <img src=<%= schedules.posts[i].imagePath %> alt="Mountain sea" width="40" height="40"/>
+			    <%}%>
 				<div class="timeline-panel">
 					<div class="timeline-heading">
 						<div class="timeline-title" style="font-size: 20px;"><%=schedules.posts[i].content%></div>
